@@ -1,42 +1,42 @@
-### Team 007
+# Team 007
 
 ## How to contribute
 
 git pull https://github.com/alekslario/007.git
 
-# checkout your branch
+#### checkout your branch
 
 git checkout [your_name]
 
-# if you branch doesn't exist create it with
+#### if you branch doesn't exist create it with
 
 git branch [your_name]
 
 git checkout [your_name]
 
-# make changes
+#### make changes
 
-# then stage changes
+#### then stage changes
 
 git add [list_of_the_files_divided_by_space]
 
-# an alternative syntax that will add changes files
+#### an alternative syntax that will add changes files
 
 git add .
 
-# commit changes
+#### commit changes
 
 git commit -m "Changes description here"
 
-# push changes to Github
+#### push changes to Github
 
 git push
 
-# Go to Github and create a pull request
+#### Go to Github and create a pull request
 
 ![Alt text](<images/Screenshot 2024-01-18 202145.png>)
 
-# Wait for the review to approve your changes
+#### Wait for the review to approve your changes
 
 ## Timeline of events
 

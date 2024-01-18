@@ -20,7 +20,7 @@ git checkout [your_name]
 
 git add [list_of_the_files_divided_by_space]
 
-#### an alternative syntax that will add changes files
+#### an alternative syntax that will add changed files
 
 git add .
 

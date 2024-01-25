@@ -40,6 +40,9 @@ const applyMiddleware = (dispatch, getState) => async (action) => {
 
 export const defaultState = {
   fab: { action_name: "", cb: () => {}, disabled: false },
+  date: null,
+  dates: {},
+  current: null,
 };
 
 const reducer = (state, action) => {
@@ -48,6 +51,18 @@ const reducer = (state, action) => {
       return {
         ...state,
         fab: action.fab,
+      };
+
+    case "SET_DATE":
+      return {
+        ...state,
+        date: action.date,
+      };
+    case "SET_DATES":
+      return {
+        ...state,
+        dates: action.dates,
+        current: action.current,
       };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);

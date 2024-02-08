@@ -1,18 +1,15 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useQueryWeather } from "../hooks/useQueryWeather";
-import { useGetAddress } from "../hooks/useGetAddress";
 import { useStore } from "../util/store.js";
-import {
-  GestureHandlerRootView,
-  ScrollView,
-} from "react-native-gesture-handler";
-import { TimeSelector, TopMain } from "./index.js";
-import { ChartOne } from "./LineChart";
-import TimeS from "./TimeSelector.js";
-// import { Map } from "./Map.js";
-import { Map } from "./MapBox.js";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Stack } from "expo-router/stack";
+import Main from "./Main";
+import LocationShare from "./LocationShare";
+import Privacy from "./Privacy";
+
+const Stack = createNativeStackNavigator();
 
 export default function Layout() {
   const [_, dispatch] = useStore();
@@ -45,22 +42,22 @@ export default function Layout() {
 
   return (
     <GestureHandlerRootView>
-      <ScrollView style={styles.container}>
-        {lat && lon && <Map lat={lat} lon={lon} />}
-        <TopMain />
-        <TimeSelector />
+      <Stack>
+        {/* <Stack.Screen name="LocationShare" component={LocationShare} /> */}
+        <Stack.Screen
+          name="Main"
+          component={Main}
+          // options={{ title: "Welcome" }}
+          initialParams={{ lon, lat }}
+        />
+        {/* <Stack.Screen name="Privacy" component={Privacy} /> */}
 
-        <ChartOne />
-      </ScrollView>
+        {/* <Stack.Screen
+            name="Privacy"
+            component={Badges}
+            // options={{ title: "Welcome" }}
+          /> */}
+      </Stack>
     </GestureHandlerRootView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    ...GlobalStyles.lightTheme,
-    display: "flex",
-    height: "100%",
-    flexDirection: "column",
-  },
-});

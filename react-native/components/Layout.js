@@ -1,33 +1,48 @@
 import React, { useEffect } from "react";
 import { View } from "react-native";
 import { useGeolocation } from "../hooks/useGeolocation";
-import { useQueryWeather } from "../hooks/useQueryWeather";
+import { useQueryWeather, defaultParams } from "../hooks/useQueryWeather";
 import { useStore } from "../util/store.js";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Stack } from "expo-router/stack";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Main from "./Main";
 import LocationShare from "./LocationShare";
 import Privacy from "./Privacy";
+import Settings from "./Settings";
 
 const Stack = createNativeStackNavigator();
 
+function HomeScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>Home Screen</Text>
+    </View>
+  );
+}
 export default function Layout() {
   const [_, dispatch] = useStore();
 
   const location = useGeolocation();
   const weather = useQueryWeather(location);
-  const lon = location?.latitude;
-  const lat = location?.longitude;
+  const lon = location?.longitude;
+  const lat = location?.latitude;
   // const address = useGetAddress(location?.latitude, location?.longitude);
 
   useEffect(() => {
     if (!weather) return;
     // make days' weather map
     const { hourly, current } = weather;
-    const { temperature_2m, time } = current;
-    const { time: time_hourly, temperature_2m: temperature_2m_hourly } = hourly;
-    const weatherMap = time_hourly.reduce((acc, cur, idx) => {
-      acc[Date.parse(cur)] = temperature_2m_hourly[idx];
+    const { temperature_2m: currentTemp, time: currentTime } = current;
+
+    const { time } = hourly;
+    const weatherMap = time.reduce((acc, cur, idx) => {
+      const milliseconds = Date.parse(cur);
+      acc[milliseconds] = {};
+      defaultParams.forEach((param) => {
+        acc[milliseconds][param] = hourly[param][idx];
+      });
+
       return acc;
     }, {});
 
@@ -35,29 +50,51 @@ export default function Layout() {
       type: "SET_DATA",
       data: weather,
       weatherMap,
-      currentTemperature: temperature_2m,
-      currentTime: Date.parse(time),
+      currentTemperature: currentTemp,
+      currentTime: Date.parse(currentTime),
     });
   }, [weather]);
 
   return (
-    <GestureHandlerRootView>
-      <Stack>
-        {/* <Stack.Screen name="LocationShare" component={LocationShare} /> */}
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Privacy"
+          component={Privacy}
+          options={{
+            headerShown: false, // change this to `false`
+          }}
+        />
+        <Stack.Screen
+          name="LocationShare"
+          component={LocationShare}
+          options={{
+            headerShown: false, // change this to `false`
+          }}
+        />
         <Stack.Screen
           name="Main"
           component={Main}
           // options={{ title: "Welcome" }}
-          initialParams={{ lon, lat }}
+          initialParams={{ lon: lat, lat: lon }}
+          options={{
+            headerShown: false, // change this to `false`
+          }}
         />
-        {/* <Stack.Screen name="Privacy" component={Privacy} /> */}
+
+        <Stack.Screen
+          name="Settings"
+          component={Settings}
+          // options={{ title: "Welcome" }}
+          // initialParams={{ lon: lat, lat: lon }}
+        />
 
         {/* <Stack.Screen
-            name="Privacy"
+            name="Badges"
             component={Badges}
             // options={{ title: "Welcome" }}
           /> */}
-      </Stack>
-    </GestureHandlerRootView>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }

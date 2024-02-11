@@ -2,28 +2,34 @@ import { useStore } from "../util/store";
 import Pointer from "../svg/Pointer";
 import { Text, View, StyleSheet, Dimensions } from "react-native";
 import { formatDate } from "../util/formatDate";
-export const TopMain = () => {
+import { useGetAddress } from "../hooks/useGetAddress";
+
+export const TopMain = ({ lon, lat }) => {
   const [
     { selectedDay, currentTemperature, weatherMap, currentTime },
     dispatch,
   ] = useStore();
 
-  const weather = weatherMap[selectedDay] ?? currentTemperature;
+  const weather =
+    weatherMap[selectedDay]?.["temperature_2m"] ?? currentTemperature;
   const [date, hours] = formatDate(selectedDay || currentTime);
+
+  const address = useGetAddress({ lon, lat });
+
   return (
     <View
       style={{
         display: "flex",
         flexDirection: "column",
         backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: Dimensions.get("window").height * 0.8,
+        padding: 20,
+        // minHeight: Dimensions.get("window").height * 0.8,
       }}
     >
+      <Text>{address}</Text>
       <View style={styles.container}>
-        <Text style={styles.weather}>{weather}</Text>
-        <Text>C°</Text>
+        <Text style={styles.weather}>{weather}°</Text>
+        <Text style={styles.weather}>C</Text>
       </View>
       <View style={styles.dateContainer}>
         <Text style={styles.date}>{date}</Text>
@@ -40,13 +46,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
 
-    justifyContent: "center",
+    justifyContent: "left",
     flexDirection: "row",
 
     width: "100%",
   },
   weather: {
-    fontSize: 70,
+    fontSize: 40,
     fontWeight: "bold",
   },
   dateContainer: {

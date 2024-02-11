@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
-const OpenLocationCode = require("open-location-code").OpenLocationCode;
 
-const openLocationCode = new OpenLocationCode();
-export const useGetAddress = (lon, lat) => {
+export const useGetAddress = ({ lon, lat }) => {
   const [state, setState] = useState(null);
 
   useEffect(() => {
@@ -16,7 +14,11 @@ export const useGetAddress = (lon, lat) => {
       .then((response) => response.json())
       .then((data) => {
         setState(data);
+      })
+      .catch((error) => {
+        console.log("error", error);
       });
   }, [lon, lat]);
+
   return state ? state.results[0].formatted_address : null;
 };

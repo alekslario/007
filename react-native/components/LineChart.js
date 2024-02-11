@@ -62,8 +62,6 @@ export const ChartOne = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
-
     padding: 20,
   },
   graph: {

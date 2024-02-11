@@ -7,3 +7,21 @@
 declare var GlobalStyles: {
     lightTheme: any;
 };
+
+type Preferences = {
+    timeFormat: "24h" | "12h";
+    temperatureUnit: "°C" | "°F";
+    precipitationUnits: "mm" | "inches";
+    windSpeedUnit: "m/s" | "km/h" | "mph" | "knots";
+    pressureUnit: "mbar" | "mm" | "inches";
+    distanceUnit: "km" | "miles";
+    theme: "light" | "dark";
+};
+
+
+type Settings = {
+    preferences: Preferences;
+    permissions: {
+        location: boolean;
+    };
+};

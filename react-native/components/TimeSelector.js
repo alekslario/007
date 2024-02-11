@@ -147,7 +147,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: StatusBar.currentHeight,
-    height: "100%",
+
+    position: "absolute",
+    top: 360,
+    zIndex: 100,
   },
   scrollView: {
     backgroundColor: "#fff",

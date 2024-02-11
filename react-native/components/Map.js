@@ -1,6 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Platform, StyleSheet, Text, View, Dimensions } from "react-native";
-import MapView, { PROVIDER_GOOGLE, Overlay, UrlTile } from "react-native-maps";
+import React, { useEffect, useState, useRef } from "react";
+import {
+  Platform,
+  Text,
+  View,
+  Dimensions,
+  Button,
+  Image,
+  Pressable,
+  StyleSheet,
+} from "react-native";
+import MapView, {
+  PROVIDER_GOOGLE,
+  Overlay,
+  UrlTile,
+  Marker,
+} from "react-native-maps";
 import customMapStyle from "../styles/custom-map.js";
 
 const windowWidth = Dimensions.get("window").width;
@@ -8,7 +22,8 @@ const windowHeight = Dimensions.get("window").height;
 
 export const Map = ({ lon, lat }) => {
   const [overlayUrl, setOverlayUrl] = useState("");
-
+  const mapRef = useRef(null);
+  const [userLocation, setUserLocation] = useState(null);
   const [maps, setMaps] = useState([]);
 
   const [count, setCount] = useState(0);
@@ -25,6 +40,20 @@ export const Map = ({ lon, lat }) => {
     };
     getWeatherMaps();
   }, []);
+
+  const scrollToLocation = (latitude, longitude) => {
+    if (mapRef.current) {
+      mapRef.current.animateToRegion(
+        {
+          latitude,
+          longitude,
+          latitudeDelta: 2.0922,
+          longitudeDelta: 2.0421,
+        },
+        1000 // Animation duration in milliseconds
+      );
+    }
+  };
 
   // useEffect(() => {
   //   if (maps.length === 0) return;
@@ -53,7 +82,7 @@ export const Map = ({ lon, lat }) => {
       <MapView
         style={{ flex: 1, width: "100%", height: "100%" }}
         provider={PROVIDER_GOOGLE}
-        showsUserLocation
+        ref={mapRef}
         initialRegion={{
           latitude: lon,
           longitude: lat,
@@ -63,6 +92,7 @@ export const Map = ({ lon, lat }) => {
         showsTraffic={false}
         showsBuildings={false}
         customMapStyle={customMapStyle}
+        showsUserLocation={false} // Turn off default blue dot
       >
         {maps.length > 0 && (
           <UrlTile
@@ -72,6 +102,32 @@ export const Map = ({ lon, lat }) => {
           />
         )}
       </MapView>
+
+      <Pressable
+        style={({ pressed }) => ({
+          ...styles.button,
+          ...{ opacity: pressed ? 0.5 : 1 },
+        })}
+        onPress={() => scrollToLocation(lon, lat)}
+      >
+        <Image
+          source={require("../assets/target.png")}
+          style={{ width: 32, height: 32 }}
+        />
+      </Pressable>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    ...GlobalStyles.lightTheme,
+    position: "absolute",
+    top: "60%",
+    right: 20,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: "#ffffff",
+    opacity: 0.5,
+  },
+});

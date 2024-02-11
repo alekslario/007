@@ -16,10 +16,20 @@ export const defaultState = {
   weatherMap: {},
   currentTemperature: null,
   currentTime: null,
+  preferences: {
+    timeFormat: "24h",
+    temperatureUnit: "C",
+    precipitationUnit: "mm",
+  },
 };
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
+    case "SET_PREFERENCES":
+      return {
+        ...state,
+        preferences: action.preferences,
+      };
     case "SET_DATA":
       return {
         ...state,

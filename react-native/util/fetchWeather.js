@@ -7,7 +7,6 @@ export const fetchWeather = async () => {
     hourly: "temperature_2m",
   };
 
-  console.log(navigator.geolocation);
   const url = "https://api.open-meteo.com/v1/dwd-icon";
   const responses = await fetchWeatherApi(url, params);
 

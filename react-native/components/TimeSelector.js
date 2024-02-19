@@ -15,7 +15,8 @@ import {
   StatusBar,
 } from "react-native";
 import Pointer from "../svg/Pointer";
-import { useStore } from "../util/store";
+import { store, setSelectedDay } from "../util/store";
+import { useDispatch } from "react-redux";
 
 const TODAY = new Date();
 const windowWidth = Dimensions.get("window").width;
@@ -82,12 +83,12 @@ const RenderItem = React.memo(({ item, index }) => {
 
 export const TimeSelector = () => {
   const [scrollOffset, setScrollOffset] = useState(0);
-  const [state, dispatch] = useStore();
+  const dispatch = useDispatch();
 
   // const index = Math.floor((scrollOffset - 35 + windowWidth / 2) / CELL_WIDTH);
   const selectedIndex = scrollOffset;
   useEffect(() => {
-    dispatch({ type: "SET_SELECTED_DAY", date: days[selectedIndex] });
+    dispatch(setSelectedDay(days[selectedIndex]));
   }, [selectedIndex]);
 
   const renderItem = useCallback(({ item, index }) => {

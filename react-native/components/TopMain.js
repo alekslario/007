@@ -1,14 +1,13 @@
-import { useStore } from "../util/store";
+import { useSelector, useDispatch } from "react-redux";
 import Pointer from "../svg/Pointer";
 import { Text, View, StyleSheet, Dimensions } from "react-native";
 import { formatDate } from "../util/formatDate";
 import { useGetAddress } from "../hooks/useGetAddress";
+import { setData } from "../util/store";
 
 export const TopMain = ({ lon, lat }) => {
-  const [
-    { selectedDay, currentTemperature, weatherMap, currentTime },
-    dispatch,
-  ] = useStore();
+  const { selectedDay, currentTemperature, weatherMap, currentTime } =
+    useSelector((state) => state.data);
 
   const weather =
     weatherMap[selectedDay]?.["temperature_2m"] ?? currentTemperature;

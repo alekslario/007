@@ -34,6 +34,7 @@ export const Map = ({ lon, lat }) => {
         "https://api.rainviewer.com/public/weather-maps.json"
       );
       const data = await response.json();
+
       // Assuming you want the latest radar data
 
       setMaps(data.radar.past);
@@ -121,7 +122,6 @@ export const Map = ({ lon, lat }) => {
 
 const styles = StyleSheet.create({
   button: {
-    ...GlobalStyles.lightTheme,
     position: "absolute",
     top: "60%",
     right: 20,

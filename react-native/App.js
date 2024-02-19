@@ -1,12 +1,10 @@
 import "./globals.js";
 import "react-native-url-polyfill/auto";
 import Layout from "./components/Layout";
-import { StoreProvider } from "./util/store.js";
-
+import { Provider } from "react-redux"; // Import Provider
+import { store } from "./util/store.js"; // Import your Redux store
+import { useLoadFonts } from "./hooks/useLoadFonts.js";
 export default function App() {
-  return (
-    <StoreProvider>
-      <Layout />
-    </StoreProvider>
-  );
+  const loaded = useLoadFonts();
+  return <Provider store={store}>{loaded ? <Layout /> : null}</Provider>;
 }

@@ -1,3 +1,4 @@
+
 // this file is meant for global type definitions
 // that are used in the whole project
 // and are not specific to a certain file
@@ -5,8 +6,19 @@
 // very helpful for adding intellisense to global objects
 
 declare var GlobalStyles: {
-    lightTheme: any;
+    lightTheme: {
+        secondaryBackgroundColor: String;
+        backgroundColor: String;
+        active: String;
+        mainText: String;
+        seconDaryText: String;
+        disabledText: String;
+        card: String;
+
+    }
 };
+
+
 
 type Preferences = {
     timeFormat: "24h" | "12h";

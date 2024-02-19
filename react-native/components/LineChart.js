@@ -1,9 +1,9 @@
 import { View, StyleSheet, Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
-import { useStore } from "../util/store.js";
+import { useSelector } from "react-redux";
 import React, { useState } from "react";
 export const ChartOne = () => {
-  const [{ weatherMap, selectedDay }, dispatch] = useStore();
+  const { weatherMap, selectedDay } = useSelector((state) => state.data);
   const [chartParentWidth, setChartParentWidth] = useState(0);
   return (
     <View

@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { View } from "react-native";
+import { useDispatch } from "react-redux";
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useQueryWeather, defaultParams } from "../hooks/useQueryWeather";
-import { useStore } from "../util/store.js";
+import { store, setData } from "../util/store.js";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -13,6 +14,8 @@ import Settings from "./Settings";
 
 const Stack = createNativeStackNavigator();
 
+const theme = GlobalStyles.lightTheme;
+
 function HomeScreen() {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -21,8 +24,7 @@ function HomeScreen() {
   );
 }
 export default function Layout() {
-  const [_, dispatch] = useStore();
-
+  const dispatch = useDispatch();
   const location = useGeolocation();
   const weather = useQueryWeather(location);
   const lon = location?.longitude;
@@ -46,18 +48,34 @@ export default function Layout() {
       return acc;
     }, {});
 
-    dispatch({
-      type: "SET_DATA",
-      data: weather,
-      weatherMap,
-      currentTemperature: currentTemp,
-      currentTime: Date.parse(currentTime),
-    });
+    dispatch(
+      setData({
+        data: weather,
+        weatherMap,
+        currentTemperature: currentTemp,
+        currentTime: Date.parse(currentTime),
+      })
+    );
   }, [weather]);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        // screenOptions={{
+        //   headerStyle: {
+        //     ...GlobalStyles.lightTheme,
+        //     headerTitleAlign: "center",
+        //     headerShadowVisible: false,
+        //   },
+        // }}
+        screenOptions={({ route, navigation }) => ({
+          headerTitleAlign: "center",
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: theme.secondaryBackgroundColor,
+          },
+        })}
+      >
         <Stack.Screen
           name="Privacy"
           component={Privacy}

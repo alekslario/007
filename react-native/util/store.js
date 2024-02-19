@@ -1,67 +1,86 @@
-// store.js
-import React, { createContext, useContext, useReducer } from "react";
-const StoreContext = createContext(null);
+import { createSlice, configureStore } from "@reduxjs/toolkit";
 
-const applyMiddleware = (dispatch, getState) => async (action) => {
-  switch (action.type) {
-    case "LOGIN":
-      break;
-  }
-  if (action) dispatch(action);
-};
+export const initialState = {
+  data: {
+    data: {},
+    selectedDay: null,
+    weatherMap: {},
+    currentTemperature: null,
+    currentTime: null,
+  },
 
-export const defaultState = {
-  data: {},
-  selectedDay: null,
-  weatherMap: {},
-  currentTemperature: null,
-  currentTime: null,
   preferences: {
-    timeFormat: "24h",
-    temperatureUnit: "C",
-    precipitationUnit: "mm",
+    timeFormat: {
+      selected: "24h",
+      options: ["24h", "12h"],
+    },
+    temperatureUnit: {
+      selected: "C",
+      options: ["C", "F"],
+    },
+    precipitationUnit: {
+      selected: "mm",
+      options: ["mm", "inches"],
+    },
+    windSpeed: {
+      selected: "m/s",
+      options: ["m/s", "km/s", "mph", "knots"],
+    },
+    pressure: {
+      selected: "mm",
+      options: ["inches", "mm", "mbar"],
+    },
+    distance: {
+      selected: "km",
+      options: ["km", "miles"],
+    },
+    theme: {
+      selected: "light",
+      options: ["light", "dark"],
+    },
   },
 };
 
-const reducer = (state = defaultState, action) => {
-  switch (action.type) {
-    case "SET_PREFERENCES":
-      return {
-        ...state,
-        preferences: action.preferences,
-      };
-    case "SET_DATA":
-      return {
-        ...state,
-        data: action.data,
-        weatherMap: action.weatherMap,
-        currentTemperature: action.currentTemperature,
-        currentTime: action.currentTime,
-      };
-    case "SET_SELECTED_DAY":
-      return {
-        ...state,
-        selectedDay: action.date,
-      };
-    default:
-      throw new Error(`Unhandled action type: ${action.type}`);
-  }
+// Preferences Slice
+export const preferencesSlice = createSlice({
+  name: "preferences",
+  initialState: initialState.preferences,
+  reducers: {
+    setPreferences: (state, action) => {
+      return { ...state, ...action.payload };
+    },
+  },
+});
+
+export const { setPreferences } = preferencesSlice.actions;
+
+// Data Slice
+export const dataSlice = createSlice({
+  name: "data",
+  initialState: initialState.data,
+  reducers: {
+    setData: (state, action) => {
+      return { ...state, ...action.payload };
+    },
+    setSelectedDay: (state, action) => {
+      return { ...state, selectedDay: action.payload };
+    },
+  },
+});
+
+export const { setData, setSelectedDay } = dataSlice.actions;
+
+// Combine Reducers
+const rootReducer = {
+  preferences: preferencesSlice.reducer,
+  data: dataSlice.reducer,
 };
 
-export const StoreProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    ...defaultState,
-  });
-
-  const getState = () => state;
-
-  const enhancedDispatch = applyMiddleware(dispatch, getState);
-
-  return (
-    <StoreContext.Provider value={[state, enhancedDispatch]}>
-      {children}
-    </StoreContext.Provider>
-  );
-};
-
-export const useStore = () => useContext(StoreContext);
+export const store = configureStore({
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: { warnAfter: 128 },
+      serializableCheck: { warnAfter: 128 },
+    }),
+  reducer: rootReducer,
+});

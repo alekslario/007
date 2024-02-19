@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet } from "react-native";
-export const Button = ({ children, action = () => {}, style = {} }) => {
+export const Button = ({ children, style = {}, ...rest }) => {
   return (
     <Pressable
       style={({ pressed }) => ({
@@ -7,7 +7,7 @@ export const Button = ({ children, action = () => {}, style = {} }) => {
         ...style,
         ...{ opacity: pressed ? 0.5 : 1 },
       })}
-      onPress={action}
+      {...rest}
     >
       {children}
     </Pressable>
@@ -20,3 +20,5 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
+export default Button;

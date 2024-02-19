@@ -1,4 +1,4 @@
-import { useStore } from "../util/store";
+import { useSelector } from "react-redux";
 import {
   Humidity,
   Precipitation,
@@ -19,10 +19,8 @@ import { IconText } from "./IconText";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 export const WeatherData = () => {
-  const [
-    { selectedDay, currentTemperature, weatherMap, currentTime },
-    dispatch,
-  ] = useStore();
+  const { selectedDay, currentTemperature, weatherMap, currentTime } =
+    useSelector((state) => state.data);
 
   const data = weatherMap[selectedDay] ?? weatherMap[currentTime];
 

@@ -34,13 +34,14 @@ export const Map = ({ lon, lat }) => {
         "https://api.rainviewer.com/public/weather-maps.json"
       );
       const data = await response.json();
-
       // Assuming you want the latest radar data
 
       setMaps(data.radar.past);
     };
     getWeatherMaps();
   }, []);
+
+  useEffect(() => {}, []);
 
   const scrollToLocation = (latitude, longitude) => {
     if (mapRef.current) {
@@ -78,9 +79,29 @@ export const Map = ({ lon, lat }) => {
   //   }, 1000);
   //   return () => clearInterval(interval);
   // }, [maps]);
+  {
+    /* <UrlTile
+            urlTemplate={`https://tilecache.rainviewer.com/v2/radar/${maps[count].path}/512/{z}/{x}/{y}/2/1_1.png`}
+            tileSize={512}
+            opacity={0.2}
+          /> */
+  }
+  const [zoom, setZoom] = useState(7.663145542144775);
+  const getZoom = async () => {
+    let coords = await mapRef.current.getCamera();
+
+    setZoom(coords.zoom); // sets variable zoom the value under coords.center.zoom
+  };
+
+  let xtile = 0;
+  let ytile = 0;
+
   return (
     <View style={{ flex: 1, width: windowWidth, height: windowHeight * 0.7 }}>
       <MapView
+        onRegionChange={() => {
+          getZoom();
+        }}
         style={{ flex: 1, width: "100%", height: "100%" }}
         provider={PROVIDER_GOOGLE}
         ref={mapRef}

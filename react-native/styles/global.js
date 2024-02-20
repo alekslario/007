@@ -7,4 +7,5 @@ export const lightTheme = {
   seconDaryText: "#888888",
   disabledText: "#B6B0B0",
   borderRadius: 10,
+  borderColor: "#888888",
 };

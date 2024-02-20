@@ -9,6 +9,15 @@ export const initialState = {
     currentTime: null,
   },
 
+  location: {
+    current: {
+      lon: null,
+      lat: null,
+      name: null,
+    },
+    options: [],
+  },
+
   preferences: {
     timeFormat: {
       selected: "24h",
@@ -52,6 +61,19 @@ export const preferencesSlice = createSlice({
   },
 });
 
+export const locationSlice = createSlice({
+  name: "location",
+  initialState: initialState.location,
+  reducers: {
+    pickLocation: (state, action) => {
+      return { ...state, ...action.payload };
+    },
+    addLocation: (state, action) => {
+      return { ...state, options: [...state.options, action.payload] };
+    },
+  },
+});
+
 export const { setPreferences } = preferencesSlice.actions;
 
 // Data Slice
@@ -68,12 +90,14 @@ export const dataSlice = createSlice({
   },
 });
 
+export const { pickLocation, addLocation } = locationSlice.actions;
 export const { setData, setSelectedDay } = dataSlice.actions;
 
 // Combine Reducers
 const rootReducer = {
   preferences: preferencesSlice.reducer,
   data: dataSlice.reducer,
+  location: locationSlice.reducer,
 };
 
 export const store = configureStore({

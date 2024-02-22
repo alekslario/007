@@ -52,3 +52,6 @@ We discussed with Sean what we were going to do the following week and agreed th
 19.02.2024 User test (10+)
 
 General feedback is neutral. A few users complained that the map/radar on the top of the screen is not as responsive as it should be. This could be the problem with the Google Maps package itself. Worth exploring alternatives such as Mapbox (requires EAS build with native modules and only supported for Linux and Mac)
+
+22.02.2024 First Ai model
+The error rate is hovering around 5 degrees. Not suitable for the production app.

@@ -4,7 +4,7 @@ FROM node:19-alpine3.15
 # RUN apt-get update
 
 RUN apk update
-
+RUN apk update && apk add bash
 # ENV NODE_VERSION=14.16.1
 # RUN apt install -y curl
 # RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash

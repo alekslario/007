@@ -9,7 +9,7 @@
     "build:dev": "webpack",
     "build:prod:win": "NODE_ENV=production && webpack",
     "devs": "bash start.sh",
-    "docker": "docker compose up",
+    "docker": "doppler --project 007 --config dev run -- docker compose up",
     "prepare": "husky",
     "test": "echo `No tests`"
   },

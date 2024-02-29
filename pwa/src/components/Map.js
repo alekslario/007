@@ -186,7 +186,7 @@ export default function Map({ lat, lon, zoom = 0 }) {
 
     let img = new Image(190, 190);
     img.onload = () => map.current.addImage("cat", img);
-    img.src = "./public/images/target.svg";
+    img.src = "./images/target.svg";
 
     // Add a data source containing one point feature.
     map.current.addSource("point", {

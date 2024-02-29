@@ -1,89 +1,110 @@
-// store.js
-import React, { createContext, useContext, useReducer } from "react";
-const StoreContext = createContext(null);
+import { createSlice, configureStore } from "@reduxjs/toolkit";
 
-///media queries =>
-export const queries = {
-  max575: "(max-width: 575.98px)",
-  min576: "(min-width: 576px)",
+export const initialState = {
+  data: {
+    data: {},
+    selectedDay: null,
+    weatherMap: {},
+    currentTemperature: null,
+    currentTime: null,
+  },
 
-  max767: "(max-width: 767.98px)",
-  min768: "(min-width: 768px)",
+  location: {
+    current: {
+      lon: null,
+      lat: null,
+      name: null,
+    },
+    options: [],
+  },
 
-  max991: "(max-width: 991.98px)",
-  min992: "(min-width: 992px)",
-
-  max1199: "(max-width: 1199.98px)",
-  min1200: "(min-width: 1200px)",
-
-  max1399: "(max-width: 1399.98px)",
-  min1400: "(min-width: 1400px)",
+  preferences: {
+    timeFormat: {
+      selected: "24h",
+      options: ["24h", "12h"],
+    },
+    temperatureUnit: {
+      selected: "C",
+      options: ["C", "F"],
+    },
+    precipitationUnit: {
+      selected: "mm",
+      options: ["mm", "inches"],
+    },
+    windSpeed: {
+      selected: "m/s",
+      options: ["m/s", "km/s", "mph", "knots"],
+    },
+    pressure: {
+      selected: "mm",
+      options: ["inches", "mm", "mbar"],
+    },
+    distance: {
+      selected: "km",
+      options: ["km", "miles"],
+    },
+    theme: {
+      selected: "light",
+      options: ["light", "dark"],
+    },
+  },
 };
 
-const getDefaultMediaQueries = () =>
-  Object.entries(queries).reduce(
-    (acc, [name, query]) => (
-      (acc[name] = window.matchMedia(query).matches), acc
-    ),
-    {}
-  );
+// Preferences Slice
+export const preferencesSlice = createSlice({
+  name: "preferences",
+  initialState: initialState.preferences,
+  reducers: {
+    setPreferences: (state, action) => {
+      return { ...state, ...action.payload };
+    },
+  },
+});
 
-/// <====
+export const locationSlice = createSlice({
+  name: "location",
+  initialState: initialState.location,
+  reducers: {
+    pickLocation: (state, action) => {
+      return { ...state, ...action.payload };
+    },
+    addLocation: (state, action) => {
+      return { ...state, options: [...state.options, action.payload] };
+    },
+  },
+});
 
-const applyMiddleware = (dispatch, getState) => async (action) => {
-  switch (action.type) {
-    case "LOGIN":
-      break;
-  }
-  if (action) dispatch(action);
+export const { setPreferences } = preferencesSlice.actions;
+
+// Data Slice
+export const dataSlice = createSlice({
+  name: "data",
+  initialState: initialState.data,
+  reducers: {
+    setData: (state, action) => {
+      return { ...state, ...action.payload };
+    },
+    setSelectedDay: (state, action) => {
+      return { ...state, selectedDay: action.payload };
+    },
+  },
+});
+
+export const { pickLocation, addLocation } = locationSlice.actions;
+export const { setData, setSelectedDay } = dataSlice.actions;
+
+// Combine Reducers
+const rootReducer = {
+  preferences: preferencesSlice.reducer,
+  data: dataSlice.reducer,
+  location: locationSlice.reducer,
 };
 
-export const defaultState = {
-  fab: { action_name: "", cb: () => {}, disabled: false },
-  date: null,
-  dates: {},
-  current: null,
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "SET_FAB_STATE":
-      return {
-        ...state,
-        fab: action.fab,
-      };
-
-    case "SET_DATE":
-      return {
-        ...state,
-        date: action.date,
-      };
-    case "SET_DATES":
-      return {
-        ...state,
-        dates: action.dates,
-        current: action.current,
-      };
-    default:
-      throw new Error(`Unhandled action type: ${action.type}`);
-  }
-};
-
-export const StoreProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    ...defaultState,
-    media: getDefaultMediaQueries(),
-  });
-
-  const getState = () => state;
-
-  const enhancedDispatch = applyMiddleware(dispatch, getState);
-
-  return (
-    <StoreContext.Provider value={[state, enhancedDispatch]}>
-      {children}
-    </StoreContext.Provider>
-  );
-};
-
-export const useStore = () => useContext(StoreContext);
+export const store = configureStore({
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: { warnAfter: 128 },
+      serializableCheck: { warnAfter: 128 },
+    }),
+  reducer: rootReducer,
+});

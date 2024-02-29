@@ -71,14 +71,6 @@
   pointer-events: none;
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  justify-content: space-between;
-
-  background: #1f1f1f;
-}
 .react-horizontal-scrolling-menu--wrapper {
   width: 80%;
   margin: 0 auto;

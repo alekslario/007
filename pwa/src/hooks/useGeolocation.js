@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import Map from "./Map";
-
-export default () => {
-  const [{ lat, lon }, setCoords] = useState({ lat: 0, lon: 0 });
+export const useGeolocation = () => {
+  const [{ lat, lon }, setCoords] = useState({ lat: null, lon: null });
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       setCoords({
@@ -12,6 +10,7 @@ export default () => {
       });
     });
   }, []);
-
-  return <>{lat && lon && <Map lat={lat} lon={lon} />}</>;
+  return [lat, lon];
 };
+
+export default useGeolocation;

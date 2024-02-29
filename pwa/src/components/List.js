@@ -95,21 +95,13 @@ function Card({ onClick, selected, date, itemId }) {
       onClick={() => onClick(visibility)}
       tabIndex={0}
       className="column"
+      style={{ width: "80px", margin: "0 10px" }}
     >
-      <>
-        <div
-          className="slider-days"
-          data-day={time === "00:00" ? `${dayOfWeek} ${day}` : ""}
-        >
-          .
-        </div>
-        <div
-          data-hour={hours % 5 === 0 ? `${hours}:00` : ""}
-          className="slider-hours"
-        >
-          .
-        </div>
-      </>
+      <img
+        src="public/images/clouds_new.png"
+
+        //   style={{ filter: `hue-rotate(${ps}deg)` }}
+      />
     </div>
   );
 }

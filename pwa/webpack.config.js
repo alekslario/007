@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
+const Dotenv = require("dotenv-webpack");
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
@@ -46,11 +47,7 @@ module.exports = (environment) => {
             ? "dist/styles.[contenthash].css"
             : "dist/styles.css",
       }),
-      new webpack.DefinePlugin({
-        "process.env.FIREBASE_API_KEY": JSON.stringify(
-          process.env.FIREBASE_API_KEY
-        ),
-      }),
+      new Dotenv(),
     ],
     module: {
       rules: [

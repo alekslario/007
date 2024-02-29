@@ -71,14 +71,6 @@
   pointer-events: none;
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  justify-content: space-between;
-
-  background: #e2e2e2;
-}
 .react-horizontal-scrolling-menu--wrapper {
   width: 80%;
   margin: 0 auto;
@@ -95,127 +87,19 @@
   height: 0;
   background-color: transparent;
 }
-.slider-wrapper {
-  position: absolute;
-  bottom: 0;
-  left: 0%;
-  width: 100vw;
-}
-.slider-pointer {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  color: #7364ce;
+.mantine-Slider-root {
+  width: 100%;
 }
 
-.main {
+.mapboxgl-ctrl-bottom-left {
+  bottom: 40% !important;
+  width: 106% !important;
   display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  flex-grow: 1;
+  justify-content: flex-end;
 }
-
-.main-overlay {
-  transition: all 0.3s ease-in-out;
-  position: absolute;
-  transform: rotate(317deg);
-  width: 1000%;
-  min-height: 1000%;
-  top: -500%;
-  left: -700%;
-  border-radius: 50%;
-  background: conic-gradient(
-    #000033 0%,
-    #45423e,
-    rgb(127, 126, 125),
-    #f7f7de,
-    #cfffd0,
-    rgb(214, 179, 144),
-    rgb(133, 120, 107),
-    #45423e,
-    #000033 100%
-  );
+.mapboxgl-ctrl-logo {
+  transform: rotate(-90deg);
 }
-
-.cloud {
-  width: 200px;
-  top: 70%;
-  left: 25%;
-  position: absolute;
-  z-index: 115;
-  filter: drop-shadow(2px 12px 6px rgb(0, 0, 0, 0.2)) hue-rotate(305deg);
-  transition: transform 0.6s ease-in-out;
-  transition-delay: 0.5s;
-}
-
-.cloud2 {
-  top: 56%;
-}
-.cloud3 {
-  top: 10%;
-}
-.cloud4 {
-  top: 30%;
-}
-
-.cloud5 {
-  top: 60%;
-  opacity: 0.1;
-  filter: hue-rotate(205deg);
-}
-
-.temperature-main {
-  font-size: 90px;
-  position: absolute;
-  top: 10%;
-  left: 30px;
-  z-index: 10;
-  color: #3f3f40;
-  font-family: "Righteous", sans-serif;
-}
-.cloud-back {
-  display: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  transition: filter 0.6s ease-in-out;
-  transition-delay: 0.2s;
-}
-
-.sun {
-  width: 100px;
-  top: 50%;
-  left: 25%;
-  position: absolute;
-  z-index: 12;
-  filter: drop-shadow(2px 12px 6px rgb(0, 0, 0, 0.2)) hue-rotate(305deg);
-  transition: transform 0.6s ease-in-out;
-  transition-delay: 0.2s;
-}
-.moon {
-  height: 50px;
-  top: 50%;
-  left: 25%;
-  position: absolute;
-  z-index: 11;
-  filter: drop-shadow(2px 12px 6px rgb(0, 0, 0, 0.2));
-  transition: transform 0.6s ease-in-out;
-  transition-delay: 0.2s;
-}
-.other {
-  height: 100vh;
-}
-
-.bird-box {
-  position: absolute;
-  top: 10%;
-  left: 20px;
-  width: 50px;
-  height: 50px;
-  transition: transform 0.6s ease-in-out;
-  transition-delay: 0.5s;
-}
-.bird {
-  transition: transform 0.6s ease-in-out;
-  transition-delay: 0.5s;
+.mapboxgl-ctrl-bottom-right {
+  bottom: 55% !important;
 }

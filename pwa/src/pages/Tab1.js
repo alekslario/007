@@ -6,14 +6,16 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import ExploreContainer from "../components/ExploreContainer";
-import WorkOut from "../components/WorkOut.js";
+
 import { useQueryWeather } from "../hooks/useQueryWeather.js";
 import "./Tab1.css";
 import { List } from "../components/List.js";
 import Main from "../components/Main.js";
 import dummy_data from "../dummy-data.json";
 import { useStore } from "../utils/store.js";
+import SwiperCore from "swiper";
+import { EffectCards } from "swiper/modules";
+SwiperCore.use([EffectCards]);
 
 const Tab1 = () => {
   const weather = useQueryWeather();
@@ -42,7 +44,7 @@ const Tab1 = () => {
       <IonContent fullscreen>
         <div className="content">
           <Main />
-          <List data={time} />
+
           <div className="other"></div>
         </div>
       </IonContent>

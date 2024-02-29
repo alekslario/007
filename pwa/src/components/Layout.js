@@ -11,11 +11,12 @@ import {
   setupIonicReact,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { ellipse, square, triangle } from "ionicons/icons";
+
+import styled from "@emotion/styled";
+
 import Tab1 from "../pages/Tab1";
 import Tab2 from "../pages/Tab2";
-import Tab3 from "../pages/Tab3";
-import Fab from "./Fab.js";
+
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 
@@ -37,22 +38,28 @@ import "../theme/variables.css";
 import { StoreProvider } from "../utils/store.js";
 setupIonicReact();
 
+const PageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 20;
+`;
 const App = () => (
   <IonApp>
     <IonReactRouter>
       <StoreProvider>
         <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
-          </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
-          </Route>
-          <Route path="/tab3">
-            <Tab3 />
-          </Route>
           <Route exact path="/">
-            <Redirect to="/tab1" />
+            <PageWrapper>
+              <Tab1 />
+            </PageWrapper>
+          </Route>
+          <Route exact path="/settings">
+            <PageWrapper>
+              {" "}
+              <Tab2 />
+            </PageWrapper>
           </Route>
         </IonRouterOutlet>
       </StoreProvider>

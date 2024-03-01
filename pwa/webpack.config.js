@@ -4,7 +4,7 @@ const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const Dotenv = require("dotenv-webpack");
-
+const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
 module.exports = (environment) => {
@@ -48,6 +48,12 @@ module.exports = (environment) => {
             : "dist/styles.css",
       }),
       new Dotenv(),
+      // new WorkboxWebpackPlugin.GenerateSW({
+      //   swDest: "./sw.js",
+      //   exclude: [/\.html$/],
+      //   clientsClaim: true,
+      //   skipWaiting: true,
+      // }),
     ],
     module: {
       rules: [

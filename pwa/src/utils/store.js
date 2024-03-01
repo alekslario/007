@@ -7,6 +7,8 @@ export const initialState = {
     weatherMap: {},
     currentTemperature: null,
     currentTime: null,
+    lon: null,
+    lat: null,
   },
 
   location: {

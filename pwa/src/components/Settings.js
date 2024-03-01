@@ -20,7 +20,7 @@ const ClickAble = ({ text, handleClick, active, last, first }) => {
               backgroundColor: darkTheme.active,
             }
           : {
-              backgroundColor: darkTheme.secondaryBackgroundColor,
+              backgroundColor: darkTheme.backgroundColor,
             }),
 
         ...(first
@@ -63,7 +63,8 @@ const StackedSettings = ({ data }) => {
                 display: "flex",
                 flexDirection: "column",
                 padding: 13,
-                backgroundColor: darkTheme.backgroundColor,
+
+                backgroundColor: darkTheme.secondaryBackgroundColor,
                 marginBottom: 1,
                 ...(index === 0
                   ? {
@@ -79,15 +80,7 @@ const StackedSettings = ({ data }) => {
                   : {}),
               }}
             >
-              <span
-                style={{
-                  color: darkTheme.mainText,
-                  marginBottom: 10,
-                  fontFamily: "Roboto-Regular",
-                }}
-              >
-                {firstLetterUppercase(key)}
-              </span>
+              <span style={styles.header}>{firstLetterUppercase(key)}</span>
               <div
                 style={{
                   display: "flex",
@@ -128,29 +121,29 @@ export default function Settings({ navigation }) {
   const { theme: uiTheme, ...rest } = preferences;
   return (
     <div style={styles.scrollView}>
-      <span
+      <h1
         style={{
           marginTop: 20,
           color: darkTheme.seconDaryText,
-          fontSize: 14,
+          fontSize: 18,
           marginBottom: 20,
           fontFamily: "Roboto-Bold",
         }}
       >
         PREFERENCES
-      </span>
+      </h1>
       <StackedSettings data={{ ...rest }} />
-      <span
+      <h1
         style={{
           marginTop: 20,
           color: darkTheme.seconDaryText,
-          fontSize: 14,
+          fontSize: 18,
           marginBottom: 20,
           fontFamily: "Roboto-Bold",
         }}
       >
         APPEARANCE
-      </span>
+      </h1>
       <StackedSettings data={{ theme: uiTheme }} />
       {/* serves as padding */}
       <div style={{ height: 100 }}></div>
@@ -161,10 +154,10 @@ export default function Settings({ navigation }) {
 const styles = {
   scrollView: {
     flex: 1,
-    backgroundColor: darkTheme.secondaryBackgroundColor,
-    margin: "0 20px",
+    // backgroundColor: darkTheme.secondaryBackgroundColor,
+
     position: "relative",
-    padding: 5,
+
     borderRadius: 10,
   },
   preferences: {
@@ -173,4 +166,9 @@ const styles = {
     justifyContent: "space-between",
   },
   preferenceName: {},
+  header: {
+    color: darkTheme.mainText,
+    marginBottom: "10px",
+    fontFamily: "Roboto-Regular",
+  },
 };

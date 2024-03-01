@@ -3,7 +3,6 @@ import { View } from "react-native";
 import { useDispatch } from "react-redux";
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useQueryWeather, defaultParams } from "../hooks/useQueryWeather";
-import { store, setData } from "../util/store.js";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";

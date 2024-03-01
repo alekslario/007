@@ -6,8 +6,8 @@ import { IonReactRouter } from "@ionic/react-router";
 import { useDispatch } from "react-redux";
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useQueryWeather, defaultParams } from "../hooks/useQueryWeather";
-
-import Main from "../pages/Main";
+import { setData } from "../utils/store";
+import MainPage from "../pages/MainPage";
 import SettingsPage from "../pages/SettingsPage";
 
 /* Core CSS required for Ionic components to work properly */
@@ -35,9 +35,9 @@ const App = () => {
   const [lat, lon] = useGeolocation();
   const weather = useQueryWeather({ lat, lon });
   // const address = useGetAddress(location?.latitude, location?.longitude);
-
   useEffect(() => {
     if (!weather) return;
+
     // make days' weather map
     const { hourly, current } = weather;
     const { temperature_2m: currentTemp, time: currentTime } = current;
@@ -59,6 +59,8 @@ const App = () => {
         weatherMap,
         currentTemperature: currentTemp,
         currentTime: Date.parse(currentTime),
+        lon,
+        lat,
       })
     );
   }, [weather]);
@@ -68,7 +70,7 @@ const App = () => {
       <IonReactRouter>
         <IonRouterOutlet>
           <Route exact path="/">
-            <Main />
+            <MainPage />
           </Route>
           <Route exact path="/settings">
             <SettingsPage />

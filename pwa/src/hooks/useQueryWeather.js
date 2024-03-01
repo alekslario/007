@@ -37,7 +37,10 @@ export const useQueryWeather = ({ lat, lon }) => {
       .then((response) => response.json())
       .then((data) => {
         setWeather(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
-  }, [location]);
+  }, [lat, lon]);
   return weather || null;
 };

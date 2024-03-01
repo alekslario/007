@@ -15,7 +15,7 @@ export const darkTheme = {
   backgroundColor: "#1f1f1f",
   card: "#353535",
   active: "#989898",
-  mainText: "#2C2727",
+  mainText: "#dbdbdb",
   seconDaryText: "#888888",
   disabledText: "#B6B0B0",
   borderRadius: 10,

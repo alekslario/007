@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Slider from "./Slider";
 import Fly from "../svg/Fly";
 import styled from "@emotion/styled";
-import { ActionIcon } from "@mantine/core";
+import { ActionButton } from "./ActionButton";
 import { darkTheme } from "../global";
 import { IconLocationFilled, IconAdjustments } from "@tabler/icons-react";
 import { useHistory } from "react-router-dom";
@@ -17,19 +17,8 @@ const layers = [
 
 const MapWrapper = styled.div`
   position: relative;
-  height: 70%;
-`;
-
-const ActionButton = styled(ActionIcon)`
-  position: absolute;
-  bottom: 26px;
-  right: 10px;
-  z-index: 1000;
-  background-color: ${darkTheme.card};
-  padding: 5px;
-  width: 35px;
-  height: 35px;
-  /* border-radius: 50%; */
+  height: 70vh;
+  min-height: 70vh;
 `;
 
 export default function Map({ lat, lon, zoom = 0 }) {

@@ -4,7 +4,7 @@ export const PageWrapper = styled.div`
   flex-direction: column;
   height: 100%;
   width: 100%;
-  padding: 20;
+  padding: 20px;
   min-height: 100vh;
   background: #1f1f1f;
 `;

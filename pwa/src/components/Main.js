@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from "react";
-
+import { useSelector } from "react-redux";
 import Map from "./Map";
 
 export default () => {
-  const [{ lat, lon }, setCoords] = useState({ lat: 0, lon: 0 });
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setCoords({
-        lat: position.coords.latitude,
-        lon: position.coords.longitude,
-      });
-    });
-  }, []);
-
+  const { lon, lat } = useSelector((state) => state.data);
   return <>{lat && lon && <Map lat={lat} lon={lon} />}</>;
 };

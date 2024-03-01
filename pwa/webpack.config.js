@@ -83,7 +83,7 @@ module.exports = (environment) => {
     devtool: env === "production" ? "source-map" : "inline-source-map",
     devServer: {
       allowedHosts: ["all"],
-      static: path.join(__dirname, "public/"),
+      static: path.join(__dirname, "/public"),
       historyApiFallback: true,
       devMiddleware: {
         publicPath: "/dist/",

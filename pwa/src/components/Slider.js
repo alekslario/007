@@ -9,12 +9,15 @@ import { darkTheme } from "../global";
 import { getTime, getTimeArray } from "../utils/utils";
 
 const Button = styled.button`
-  width: "30px";
-  height: "30px";
   background-color: ${darkTheme.secondaryBackgroundColor};
   margin-left: 20px;
   border-radius: 10px;
-  padding: 6px;
+  /* padding: 12px; */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const SliderContainer = styled.div`
@@ -24,10 +27,10 @@ const SliderContainer = styled.div`
   justify-content: center;
   align-items: center;
   .mantine-Slider-thumb {
-    background-color: ${darkTheme.backgroundColor};
-    border: 2px solid ${darkTheme.backgroundColor};
+    background-color: ${darkTheme.active};
+    border: 6px solid ${darkTheme.backgroundColor};
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-    padding: 10px;
+
     transition: all 0.2s ease-in-out;
   }
   .mantine-Slider-track {
@@ -43,6 +46,9 @@ const SliderContainer = styled.div`
   .play-icons path {
     fill: ${darkTheme.active};
   }
+  .mantine-Slider-root {
+    width: 70%;
+  }
 `;
 const SliderWrapper = styled.div`
   position: absolute;
@@ -56,7 +62,7 @@ const SliderWrapper = styled.div`
 
   border-radius: 10px;
   padding: 5px 5px 5px 6px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 `;
 
 export const Slider = ({

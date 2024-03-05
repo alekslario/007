@@ -7,6 +7,7 @@ import WeatherData from "../components/WeatherData.js";
 import MainInfo from "../components/MainInfo.js";
 import { darkTheme } from "../global.js";
 import TempChart from "../components/TempChart.js";
+import BottomDrawer from "../components/BottomDrawer.js";
 const MainPage = () => {
   return (
     <IonPage>
@@ -18,9 +19,11 @@ const MainPage = () => {
       >
         <PageWrapper style={{ padding: "0px" }}>
           <Main />
-          <MainInfo />
-          <TempChart />
-          <WeatherData />
+          <BottomDrawer>
+            <MainInfo />
+            <TempChart />
+            <WeatherData />
+          </BottomDrawer>
         </PageWrapper>
       </IonContent>
     </IonPage>

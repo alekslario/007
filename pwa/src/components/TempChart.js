@@ -10,6 +10,14 @@ const defaultOptions = {
     toolbar: {
       show: false,
     },
+    dropShadow: {
+      enabled: true,
+      top: 0,
+      left: 0,
+      blur: 3,
+      color: "#000",
+      opacity: 0.95,
+    },
   },
   xaxis: {
     lines: {
@@ -110,7 +118,7 @@ export const TempChart = () => {
             flexDirection: "column",
           }}
         >
-          <Chart options={options} series={series} type="area" />
+          <Chart options={options} series={series} type="line" />
         </div>
       )}
     </>

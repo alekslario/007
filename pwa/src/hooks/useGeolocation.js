@@ -10,7 +10,9 @@ export const useGeolocation = () => {
       });
     });
   }, []);
-  return [lat, lon];
+
+  // return [lat, lon];
+  return [51.4744023, -0.035605];
 };
 
 export default useGeolocation;

@@ -9,12 +9,10 @@ const DAYS = [
 ];
 export const formatDate = (milliseconds) => {
   const date = new Date(milliseconds);
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
+  const time = getTime(milliseconds);
   const dayOfTheWeek = DAYS[date.getDay()];
   const day = date.getDate();
-  return [`${day} ${dayOfTheWeek}`, `${hours}:00`];
+  return [`${day} ${dayOfTheWeek}`, `${time}`];
 };
 
 export const getTime = (milliseconds) => {
@@ -49,4 +47,8 @@ export const firstLetterUppercase = (string) => {
     );
   }
   return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+export const dbzToRain = (dbz) => {
+  return 0.036 * 10 ** (0.0625 * dBZ);
 };

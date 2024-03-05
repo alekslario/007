@@ -1,12 +1,18 @@
 import mapboxgl from "mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
 import React, { useEffect, useRef, useState } from "react";
 import Slider from "./Slider";
+
 import Fly from "../svg/Fly";
 import styled from "@emotion/styled";
 import { ActionButton } from "./ActionButton";
 import { darkTheme } from "../global";
-import { IconLocationFilled, IconAdjustments } from "@tabler/icons-react";
+import {
+  IconLocationFilled,
+  IconAdjustments,
+  IconPlus,
+} from "@tabler/icons-react";
 import { useHistory } from "react-router-dom";
+import ColorLegend from "./ColorLegend";
 const layers = [
   "precipitation_new",
   "clouds_new",
@@ -17,8 +23,8 @@ const layers = [
 
 const MapWrapper = styled.div`
   position: relative;
-  height: 70vh;
-  min-height: 70vh;
+  height: 65vh;
+  min-height: 65vh;
 `;
 
 export default function Map({ lat, lon, zoom = 0 }) {
@@ -55,6 +61,7 @@ export default function Map({ lat, lon, zoom = 0 }) {
       setLoaded(true);
     });
   }, []);
+
   // `https://tile.openweathermap.org/map/${layers[selectedLayer]}/{z}/{x}/{y}.png?appid=${process.env.EXPO_PUBLIC_OPENWEATHERMAP_KEY}`
 
   useEffect(() => {
@@ -249,7 +256,7 @@ export default function Map({ lat, lon, zoom = 0 }) {
         }}
       />
       <ActionButton onClick={goToStart}>
-        <IconLocationFilled size={20} />
+        <IconLocationFilled size={20} stroke={darkTheme.active} />
       </ActionButton>
 
       <ActionButton
@@ -259,9 +266,24 @@ export default function Map({ lat, lon, zoom = 0 }) {
         onClick={() => {
           history.push("/settings");
         }}
+        stroke={darkTheme.active}
       >
         <IconAdjustments />
       </ActionButton>
+
+      <ActionButton
+        style={{
+          top: "20px",
+          left: " 15px",
+        }}
+        onClick={() => {
+          history.push("/address");
+        }}
+        stroke={darkTheme.active}
+      >
+        <IconPlus />
+      </ActionButton>
+      <ColorLegend />
     </MapWrapper>
   );
 }

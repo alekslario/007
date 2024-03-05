@@ -9,6 +9,7 @@ import { useQueryWeather, defaultParams } from "../hooks/useQueryWeather";
 import { setData } from "../utils/store";
 import MainPage from "../pages/MainPage";
 import SettingsPage from "../pages/SettingsPage";
+import AddressPage from "../pages/AddressPage";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -74,6 +75,10 @@ const App = () => {
           </Route>
           <Route exact path="/settings">
             <SettingsPage />
+          </Route>
+
+          <Route exact path="/address">
+            <AddressPage />
           </Route>
         </IonRouterOutlet>
       </IonReactRouter>

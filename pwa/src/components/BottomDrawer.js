@@ -1,33 +1,58 @@
-import React, { useRef, useEffect } from "react";
-import { IonModal, IonContent } from "@ionic/react";
-import { darkTheme } from "../global";
-// import redux route to get current path
-import { useLocation } from "react-router-dom";
-export const BottomDrawer = ({ children }) => {
-  const location = useLocation();
+import React, { useRef } from 'react';
+import {
+  IonButton,
+  IonModal,
+  IonHeader,
+  IonContent,
+  IonToolbar,
+  IonTitle,
+  IonPage,
+  IonList,
+  IonItem,
+  IonLabel,
+  IonAvatar,
+  IonImg,
+  IonSearchbar,
+} from '@ionic/react';
+import { darkTheme } from '../global';
+export const BottomDrawer = ({ show }) => {
   const modal = useRef(null);
-  useEffect(() => {
-    if (location.pathname !== "/") {
-      modal.current.dismiss();
-    } else {
-      modal.current.present();
-    }
-  }, [location.pathname]);
 
+  const handleSearch = () => {
+    modal.current?.setCurrentBreakpoint(0.75);
+  };
   return (
     <IonModal
       style={{
-        "--ion-background-color": darkTheme.backgroundColor,
+        '--ion-background-color': darkTheme.secondaryBackgroundColor,
       }}
+      trigger="open-modal"
       ref={modal}
-      initialBreakpoint={0.35}
-      isOpen={true}
-      breakpoints={[0.35, 0.95]}
-      backdropDismiss={false}
-      showBackdrop={false}
-      backdropBreakpoint={0.35}
+      initialBreakpoint={0.25}
+      breakpoints={[0, 0.25, 0.5, 0.75]}
+      isOpen={show}
     >
-      <IonContent className="ion-padding">{children}</IonContent>
+      <IonContent className="ion-padding">
+        <IonSearchbar
+          style={{
+            '--background': darkTheme.card,
+            '--color': darkTheme.mainText,
+            '--icon-color': darkTheme.active,
+            '--clear-button-color': darkTheme.active,
+            '--border-radius': '10px',
+          }}
+          onClick={handleSearch}
+          placeholder="Search"
+        ></IonSearchbar>
+        <IonList>
+          <IonItem>
+            <IonLabel>
+              <h2>Connor Smith</h2>
+              <p>Sales Rep</p>
+            </IonLabel>
+          </IonItem>
+        </IonList>
+      </IonContent>
     </IonModal>
   );
 };

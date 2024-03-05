@@ -1,25 +1,16 @@
-import mapboxgl from "mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
-import React, { useEffect, useRef, useState } from "react";
-import Slider from "./Slider";
+import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
+import React, { useEffect, useRef, useState } from 'react';
+import Slider from './Slider';
 
-import Fly from "../svg/Fly";
-import styled from "@emotion/styled";
-import { ActionButton } from "./ActionButton";
-import { darkTheme } from "../global";
-import {
-  IconLocationFilled,
-  IconAdjustments,
-  IconPlus,
-} from "@tabler/icons-react";
-import { useHistory } from "react-router-dom";
-import ColorLegend from "./ColorLegend";
-const layers = [
-  "precipitation_new",
-  "clouds_new",
-  "pressure_new",
-  "wind_new",
-  "temp_new",
-];
+import Fly from '../svg/Fly';
+import styled from '@emotion/styled';
+import { ActionButton } from './ActionButton';
+import { darkTheme } from '../global';
+import { IconLocationFilled, IconAdjustments, IconPlus } from '@tabler/icons-react';
+import { useHistory } from 'react-router-dom';
+import ColorLegend from './ColorLegend';
+import BottomDrawer from './BottomDrawer';
+const layers = ['precipitation_new', 'clouds_new', 'pressure_new', 'wind_new', 'temp_new'];
 
 const MapWrapper = styled.div`
   position: relative;
@@ -27,7 +18,7 @@ const MapWrapper = styled.div`
   min-height: 65vh;
 `;
 
-export default function Map({ lat, lon, zoom = 0 }) {
+export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
   const history = useHistory();
   const [selectedLayer, setSelectedLayer] = useState(0);
   const [maps, setMaps] = useState([]);
@@ -48,7 +39,7 @@ export default function Map({ lat, lon, zoom = 0 }) {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/dark-v11",
+      style: 'mapbox://styles/mapbox/dark-v11',
       center: [lon, lat],
       zoom: zoom,
       // attributionControl: false,
@@ -57,7 +48,8 @@ export default function Map({ lat, lon, zoom = 0 }) {
   }, []);
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
-    map.current.on("load", () => {
+    map.current.on('load', () => {
+      map.current.resize();
       setLoaded(true);
     });
   }, []);
@@ -71,15 +63,13 @@ export default function Map({ lat, lon, zoom = 0 }) {
     maps.forEach((tile, index) => {
       map.current.addLayer({
         id: `rainviewer_${tile.path}`,
-        type: "raster",
+        type: 'raster',
         source: {
-          type: "raster",
-          tiles: [
-            `https://tilecache.rainviewer.com/v2/radar/${tile.path}/512/{z}/{x}/{y}/2/1_1.png`,
-          ],
+          type: 'raster',
+          tiles: [`https://tilecache.rainviewer.com/v2/radar/${tile.path}/512/{z}/{x}/{y}/2/1_1.png`],
           tileSize: 256,
         },
-        layout: { visibility: index === 0 ? "visible" : "none" },
+        layout: { visibility: index === 0 ? 'visible' : 'none' },
         minzoom: 0,
         maxzoom: 22,
       });
@@ -93,8 +83,8 @@ export default function Map({ lat, lon, zoom = 0 }) {
     maps.forEach((frame, index) => {
       map.current.setLayoutProperty(
         `rainviewer_${frame.path}`,
-        "visibility",
-        index === time || index === time - 1 ? "visible" : "none"
+        'visibility',
+        index === time || index === time - 1 ? 'visible' : 'none'
       );
     });
     if (time - 1 >= 0) {
@@ -105,11 +95,7 @@ export default function Map({ lat, lon, zoom = 0 }) {
           if (opacity <= 0) {
             return clearInterval(i2);
           }
-          map.current.setPaintProperty(
-            `rainviewer_${frame.path}`,
-            "raster-opacity",
-            opacity
-          );
+          map.current.setPaintProperty(`rainviewer_${frame.path}`, 'raster-opacity', opacity);
           opacity -= 0.1;
         }, 50);
       }, 400);
@@ -131,24 +117,14 @@ export default function Map({ lat, lon, zoom = 0 }) {
   useEffect(() => {
     if (!loaded || maps.length === 0 || !play || time > 0) return;
     maps.forEach((frame, index) => {
-      map.current.setLayoutProperty(
-        `rainviewer_${frame.path}`,
-        "visibility",
-        index === 0 ? "visible" : "none"
-      );
-      map.current.setPaintProperty(
-        `rainviewer_${frame.path}`,
-        "raster-opacity",
-        1
-      );
+      map.current.setLayoutProperty(`rainviewer_${frame.path}`, 'visibility', index === 0 ? 'visible' : 'none');
+      map.current.setPaintProperty(`rainviewer_${frame.path}`, 'raster-opacity', 1);
     });
   }, [maps.length, play, loaded, time]);
 
   useEffect(() => {
     const getWeatherMaps = async () => {
-      const response = await fetch(
-        "https://api.rainviewer.com/public/weather-maps.json"
-      );
+      const response = await fetch('https://api.rainviewer.com/public/weather-maps.json');
       const data = await response.json();
       // Assuming you want the latest radar data
 
@@ -181,19 +157,19 @@ export default function Map({ lat, lon, zoom = 0 }) {
     if (!loaded) return;
 
     let img = new Image(190, 190);
-    img.onload = () => map.current.addImage("cat", img);
-    img.src = "./images/target.svg";
+    img.onload = () => map.current.addImage('cat', img);
+    img.src = './images/target.svg';
 
     // Add a data source containing one point feature.
-    map.current.addSource("point", {
-      type: "geojson",
+    map.current.addSource('point', {
+      type: 'geojson',
       data: {
-        type: "FeatureCollection",
+        type: 'FeatureCollection',
         features: [
           {
-            type: "Feature",
+            type: 'Feature',
             geometry: {
-              type: "Point",
+              type: 'Point',
               coordinates: [lon, lat],
             },
           },
@@ -203,12 +179,12 @@ export default function Map({ lat, lon, zoom = 0 }) {
 
     // Add a layer to use the image to represent the data.
     map.current.addLayer({
-      id: "points",
-      type: "symbol",
-      source: "point", // reference the data source
+      id: 'points',
+      type: 'symbol',
+      source: 'point', // reference the data source
       layout: {
-        "icon-image": "cat", // reference the image
-        "icon-size": 0.25,
+        'icon-image': 'cat', // reference the image
+        'icon-size': 0.25,
       },
     });
   }, [loaded]);
@@ -227,25 +203,30 @@ export default function Map({ lat, lon, zoom = 0 }) {
     setPlay(false);
 
     maps.forEach((frame, index) => {
-      map.current.setLayoutProperty(
-        `rainviewer_${frame.path}`,
-        "visibility",
-        time === index ? "visible" : "none"
-      );
-      map.current.setPaintProperty(
-        `rainviewer_${frame.path}`,
-        "raster-opacity",
-        1
-      );
+      map.current.setLayoutProperty(`rainviewer_${frame.path}`, 'visibility', time === index ? 'visible' : 'none');
+      map.current.setPaintProperty(`rainviewer_${frame.path}`, 'raster-opacity', 1);
     });
   };
+
+  // // hook to if scrolled
+  // const [scrolled, setScrolled] = useState(false);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (window.scrollY > 0) {
+  //       setScrolled(true);
+  //     } else {
+  //       setScrolled(false);
+  //     }
+  //   };
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
+
   return (
     <MapWrapper>
-      <div
-        ref={mapContainer}
-        className="map-container"
-        style={{ height: "100%" }}
-      />
+      <div ref={mapContainer} className="map-container" style={{ height: '100%' }} />
       <Slider
         time={time}
         overlays={maps}
@@ -261,10 +242,10 @@ export default function Map({ lat, lon, zoom = 0 }) {
 
       <ActionButton
         style={{
-          top: "20px",
+          top: '20px',
         }}
         onClick={() => {
-          history.push("/settings");
+          history.push('/settings');
         }}
         stroke={darkTheme.active}
       >
@@ -273,11 +254,11 @@ export default function Map({ lat, lon, zoom = 0 }) {
 
       <ActionButton
         style={{
-          top: "20px",
-          left: " 15px",
+          top: '20px',
+          left: ' 15px',
         }}
         onClick={() => {
-          history.push("/address");
+          setShowInput(true);
         }}
         stroke={darkTheme.active}
       >

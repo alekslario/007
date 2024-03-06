@@ -1,7 +1,7 @@
 import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 import React, { useEffect, useRef, useState } from 'react';
 import Slider from './Slider';
-
+import { useSelector } from 'react-redux';
 import Fly from '../svg/Fly';
 import styled from '@emotion/styled';
 import { ActionButton } from './ActionButton';
@@ -19,6 +19,7 @@ const MapWrapper = styled.div`
 `;
 
 export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
+  const current = useSelector((state) => state.location.current);
   const history = useHistory();
   const [selectedLayer, setSelectedLayer] = useState(0);
   const [maps, setMaps] = useState([]);
@@ -134,6 +135,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
   }, []);
 
   useEffect(() => {
+    if (!loaded) return;
     map.current.flyTo({
       ...{
         center: [lon, lat],
@@ -143,7 +145,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
       essential: true, // This animation is considered essential with
       //respect to prefers-reduced-motion
     });
-  }, [loaded]);
+  }, [loaded, lat, lon]);
 
   useEffect(() => {
     if (!loaded || maps.length === 0 || !play) return;
@@ -190,6 +192,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
   }, [loaded]);
 
   const goToStart = () => {
+    const { lon, lat } = current;
     map.current.flyTo({
       center: [lon, lat],
       zoom: 4,

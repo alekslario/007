@@ -12,6 +12,7 @@ export const initialState = {
   },
 
   location: {
+    selectedIndex: 0,
     current: {
       lon: null,
       lat: null,
@@ -19,7 +20,7 @@ export const initialState = {
     },
     options: [],
   },
-
+  cash: {},
   preferences: {
     timeFormat: {
       selected: '24h',
@@ -62,6 +63,15 @@ export const preferencesSlice = createSlice({
     },
   },
 });
+export const cashSlice = createSlice({
+  name: 'cash',
+  initialState: initialState.preferences,
+  reducers: {
+    setCash: (state, action) => {
+      return { ...state, [action.payload.key]: action.payload.data };
+    },
+  },
+});
 
 export const locationSlice = createSlice({
   name: 'location',
@@ -76,7 +86,20 @@ export const locationSlice = createSlice({
     removeLocation: (state, action) => {
       return {
         ...state,
-        options: state.options.filter((option) => option.name !== action.payload),
+        selectedIndex: 0,
+        current: action.payload,
+      };
+    },
+    addCurrentLocation: (state, action) => {
+      return {
+        ...state,
+        current: action.payload,
+      };
+    },
+    selectSlide: (state, action) => {
+      return {
+        ...state,
+        selectedIndex: action.payload,
       };
     },
   },
@@ -98,13 +121,14 @@ export const dataSlice = createSlice({
   },
 });
 
-export const { pickLocation, addLocation, removeLocation } = locationSlice.actions;
+export const { pickLocation, addLocation, removeLocation, addCurrentLocation, selectSlide } = locationSlice.actions;
 export const { setData, setSelectedDay } = dataSlice.actions;
-
+export const { setCash } = cashSlice.actions;
 // Combine Reducers
 const rootReducer = {
   preferences: preferencesSlice.reducer,
   data: dataSlice.reducer,
+  cash: cashSlice.reducer,
   location: locationSlice.reducer,
 };
 

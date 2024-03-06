@@ -1,5 +1,6 @@
-import React from "react";
-import { darkTheme } from "../global";
+import React from 'react';
+import { darkTheme } from '../global';
+
 export const IconText = ({ children, text, number, units }) => {
   return (
     <div style={styles.container}>
@@ -8,7 +9,7 @@ export const IconText = ({ children, text, number, units }) => {
       <div style={styles.numberContainer}>
         <span style={styles.number}>{number}</span>
         <span> </span>
-        <span style={styles.units}>{units}</span>
+        <span style={{ color: 'red' }}>{units}</span>
       </div>
     </div>
   );
@@ -16,24 +17,24 @@ export const IconText = ({ children, text, number, units }) => {
 
 const styles = {
   container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
   text: {
-    color: darkTheme.seconDaryText,
+    color: darkTheme.secondaryText,
   },
   units: {
-    color: darkTheme.seconDaryText,
+    color: darkTheme.secondaryText,
   },
   numberContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "flex-end",
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   number: {
-    fontSize: "18px",
+    fontSize: '18px',
     color: darkTheme.mainText,
   },
 };

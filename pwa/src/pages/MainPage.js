@@ -9,9 +9,11 @@ import TempChart from '../components/TempChart.js';
 import BottomDrawer from '../components/BottomDrawer.js';
 import Map from '../components/Map.js';
 import { useSelector } from 'react-redux';
+
 const MainPage = () => {
-  const { lon, lat } = useSelector((state) => state.data);
+  const { current, options, selectedIndex } = useSelector((state) => state.location);
   const [showInput, setShowInput] = useState(false);
+  const { lat, lon } = selectedIndex > 0 ? options[selectedIndex - 1] : current;
   useEffect(() => {
     const isDismissed = () => {
       setShowInput(false);
@@ -19,6 +21,7 @@ const MainPage = () => {
     document.addEventListener('ionModalDidDismiss', isDismissed);
     return () => document.removeEventListener('ionModalDidDismiss', isDismissed);
   }, []);
+
   return (
     <IonPage>
       <IonContent

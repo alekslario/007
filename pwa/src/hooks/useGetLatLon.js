@@ -1,29 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 export const useGetLatLon = (address) => {
-  const [state, setState] = useState([]);
+  const [{ results }, setState] = useState({ results: [] });
 
   useEffect(() => {
+    console.log('address123', address, results.length);
+    if (!address && results.length > 0) {
+      setState({ results: [] });
+    }
     if (!address) return;
 
     const getLocation = async () => {
-      return fetch(
-        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
-          address
-        )}`
-      );
+      return fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(address)}`);
     };
 
-    // This function will be invoked after 500ms of inactivity
+    // This function will be invoked after 700ms of inactivity
     const timer = setTimeout(() => {
-      // Perform your desired effect here
       return getLocation()
         .then((response) => response.json())
         .then((data) => {
-          setState(data);
+          if (data.results) setState(data);
         })
         .catch((error) => {
-          console.log("error", error);
+          console.log('error', error);
         });
     }, 700);
 
@@ -32,5 +31,5 @@ export const useGetLatLon = (address) => {
     return () => clearTimeout(timer);
   }, [address]);
 
-  return state?.results || [];
+  return results || [];
 };

@@ -17,6 +17,12 @@
   @apply translate-x-[23px];
 }
 
+body {
+  font-family: 'Roboto', sans-serif;
+}
+.secondFont {
+  font-family: 'Roboto Condensed', sans-serif;
+}
 .row {
   display: flex;
   flex-direction: row;

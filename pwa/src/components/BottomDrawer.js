@@ -1,33 +1,139 @@
-import React, { useRef, useEffect } from "react";
-import { IonModal, IonContent } from "@ionic/react";
-import { darkTheme } from "../global";
-// import redux route to get current path
-import { useLocation } from "react-router-dom";
-export const BottomDrawer = ({ children }) => {
-  const location = useLocation();
+import React, { useRef, useState, useEffect } from 'react';
+import {
+  IonButton,
+  IonModal,
+  IonHeader,
+  IonContent,
+  IonToolbar,
+  IonTitle,
+  IonPage,
+  IonList,
+  IonItem,
+  IonLabel,
+  IonAvatar,
+  IonImg,
+  IonButtons,
+  IonSearchbar,
+} from '@ionic/react';
+import { darkTheme } from '../global';
+import { useGetLatLon } from '../hooks/useGetLatLon';
+import { useDispatch, useSelector } from 'react-redux';
+import { addLocation, removeLocation } from '../utils/store';
+import { ActionIcon } from '@mantine/core';
+import { IconMoodEmptyFilled, IconTrashFilled } from '@tabler/icons-react';
+export const BottomDrawer = ({ show }) => {
   const modal = useRef(null);
+  const [value, setValue] = useState('');
+  const dispatch = useDispatch();
+  const { options } = useSelector((state) => state.location);
   useEffect(() => {
-    if (location.pathname !== "/") {
-      modal.current.dismiss();
-    } else {
-      modal.current.present();
-    }
-  }, [location.pathname]);
-
+    if (!document) return;
+    const setState = (e) => {
+      const data = e.detail.value;
+      setValue(data);
+    };
+    document.addEventListener('ionInput', setState);
+    return () => document.removeEventListener('ionInput', setState);
+  }, []);
+  const matchedLocations = useGetLatLon(value);
+  console.log(matchedLocations);
   return (
     <IonModal
       style={{
-        "--ion-background-color": darkTheme.backgroundColor,
+        '--ion-background-color': darkTheme.secondaryBackgroundColor,
       }}
       ref={modal}
-      initialBreakpoint={0.35}
-      isOpen={true}
-      breakpoints={[0.35, 0.95]}
-      backdropDismiss={false}
-      showBackdrop={false}
-      backdropBreakpoint={0.35}
+      initialBreakpoint={0.65}
+      isOpen={show}
     >
-      <IonContent className="ion-padding">{children}</IonContent>
+      {' '}
+      <IonHeader>
+        {' '}
+        <IonToolbar style={{ position: 'sticky' }}>
+          <IonButtons slot="end">
+            <IonButton color="light" onClick={() => modal.current?.dismiss()}>
+              Close
+            </IonButton>
+          </IonButtons>
+        </IonToolbar>
+        <IonSearchbar
+          style={{
+            '--background': darkTheme.card,
+            '--color': darkTheme.mainText,
+            '--icon-color': darkTheme.active,
+            '--clear-button-color': darkTheme.active,
+            '--border-radius': '10px',
+          }}
+          placeholder="Search"
+        ></IonSearchbar>
+      </IonHeader>
+      <IonContent className="ion-padding">
+        <ul
+          style={{
+            overflow: 'scroll',
+          }}
+        >
+          {matchedLocations.map((location, index) => {
+            const { latitude, longitude, admin1, name } = location;
+            return (
+              <IonItem
+                key={index}
+                style={{
+                  '--color': darkTheme.mainText,
+                }}
+              >
+                <IonLabel
+                  onClick={() => {
+                    dispatch(addLocation({ lat: latitude, lon: longitude, name: `${name}, ${admin1}` }));
+                    setValue('');
+                    modal.current?.dismiss();
+                  }}
+                >
+                  <h2>{name}</h2>
+                  <p>{admin1}</p>
+                </IonLabel>
+              </IonItem>
+            );
+          })}
+          {matchedLocations.length === 0 && (
+            <>
+              {options.length > 0 && (
+                <p
+                  style={{
+                    color: darkTheme.mainText,
+                  }}
+                >
+                  Your saved locations
+                </p>
+              )}
+              <IonList style={{ height: '100%' }}>
+                {options.map(({ lon, lat, name }, index) => {
+                  return (
+                    <IonItem
+                      key={index}
+                      onClick={() => {
+                        dispatch(removeLocation(name));
+                        modal.current?.dismiss();
+                      }}
+                      style={{
+                        '--color': darkTheme.mainText,
+                      }}
+                    >
+                      <IonLabel>
+                        <h2>{name}</h2>
+                      </IonLabel>
+                      <ActionIcon>
+                        <IconTrashFilled />
+                      </ActionIcon>
+                    </IonItem>
+                  );
+                })}
+              </IonList>
+            </>
+          )}
+        </ul>
+        <div style={{ height: '300px' }}></div>
+      </IonContent>
     </IonModal>
   );
 };

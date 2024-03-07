@@ -1,4 +1,4 @@
-import { createSlice, configureStore } from "@reduxjs/toolkit";
+import { createSlice, configureStore } from '@reduxjs/toolkit';
 
 export const initialState = {
   data: {
@@ -12,6 +12,7 @@ export const initialState = {
   },
 
   location: {
+    selectedIndex: 0,
     current: {
       lon: null,
       lat: null,
@@ -19,42 +20,42 @@ export const initialState = {
     },
     options: [],
   },
-
+  cash: {},
   preferences: {
     timeFormat: {
-      selected: "24h",
-      options: ["24h", "12h"],
+      selected: '24h',
+      options: ['24h', '12h'],
     },
     temperatureUnit: {
-      selected: "C",
-      options: ["C", "F"],
+      selected: 'C',
+      options: ['C', 'F'],
     },
     precipitationUnit: {
-      selected: "mm",
-      options: ["mm", "inches"],
+      selected: 'mm',
+      options: ['mm', 'inches'],
     },
     windSpeed: {
-      selected: "m/s",
-      options: ["m/s", "km/s", "mph", "knots"],
+      selected: 'm/s',
+      options: ['m/s', 'km/s', 'mph', 'knots'],
     },
     pressure: {
-      selected: "mm",
-      options: ["inches", "mm", "mbar"],
+      selected: 'mm',
+      options: ['inches', 'mm', 'mbar'],
     },
     distance: {
-      selected: "km",
-      options: ["km", "miles"],
+      selected: 'km',
+      options: ['km', 'miles'],
     },
     theme: {
-      selected: "light",
-      options: ["light", "dark"],
+      selected: 'light',
+      options: ['light', 'dark'],
     },
   },
 };
 
 // Preferences Slice
 export const preferencesSlice = createSlice({
-  name: "preferences",
+  name: 'preferences',
   initialState: initialState.preferences,
   reducers: {
     setPreferences: (state, action) => {
@@ -62,9 +63,18 @@ export const preferencesSlice = createSlice({
     },
   },
 });
+export const cashSlice = createSlice({
+  name: 'cash',
+  initialState: initialState.preferences,
+  reducers: {
+    setCash: (state, action) => {
+      return { ...state, [action.payload.key]: action.payload.data };
+    },
+  },
+});
 
 export const locationSlice = createSlice({
-  name: "location",
+  name: 'location',
   initialState: initialState.location,
   reducers: {
     pickLocation: (state, action) => {
@@ -73,6 +83,25 @@ export const locationSlice = createSlice({
     addLocation: (state, action) => {
       return { ...state, options: [...state.options, action.payload] };
     },
+    removeLocation: (state, action) => {
+      return {
+        ...state,
+        selectedIndex: 0,
+        current: action.payload,
+      };
+    },
+    addCurrentLocation: (state, action) => {
+      return {
+        ...state,
+        current: action.payload,
+      };
+    },
+    selectSlide: (state, action) => {
+      return {
+        ...state,
+        selectedIndex: action.payload,
+      };
+    },
   },
 });
 
@@ -80,7 +109,7 @@ export const { setPreferences } = preferencesSlice.actions;
 
 // Data Slice
 export const dataSlice = createSlice({
-  name: "data",
+  name: 'data',
   initialState: initialState.data,
   reducers: {
     setData: (state, action) => {
@@ -92,13 +121,14 @@ export const dataSlice = createSlice({
   },
 });
 
-export const { pickLocation, addLocation } = locationSlice.actions;
+export const { pickLocation, addLocation, removeLocation, addCurrentLocation, selectSlide } = locationSlice.actions;
 export const { setData, setSelectedDay } = dataSlice.actions;
-
+export const { setCash } = cashSlice.actions;
 // Combine Reducers
 const rootReducer = {
   preferences: preferencesSlice.reducer,
   data: dataSlice.reducer,
+  cash: cashSlice.reducer,
   location: locationSlice.reducer,
 };
 

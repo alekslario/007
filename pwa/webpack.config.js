@@ -1,13 +1,11 @@
-
-const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const webpack = require("webpack");
-const Dotenv = require("dotenv-webpack");
-const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
-
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 module.exports = (environment) => {
   const env = process.env.NODE_ENV.trim();
@@ -46,14 +44,14 @@ module.exports = (environment) => {
       new MiniCssExtractPlugin({
         filename: env === 'production' ? 'dist/styles.[contenthash].css' : 'dist/styles.css',
       }),
-      new Dotenv(),
       // new WorkboxWebpackPlugin.GenerateSW({
       //   swDest: "./sw.js",
       //   exclude: [/\.html$/],
       //   clientsClaim: true,
       //   skipWaiting: true,
+      //   maximumFileSizeToCacheInBytes: 50000000,
       // }),
-
+      new Dotenv(),
     ],
     module: {
       rules: [
@@ -88,8 +86,8 @@ module.exports = (environment) => {
     },
     devtool: env === 'production' ? 'source-map' : 'inline-source-map',
     devServer: {
-      allowedHosts: ["all"],
-      static: path.join(__dirname, "/public"),
+      allowedHosts: ['all'],
+      static: path.join(__dirname, '/public'),
 
       historyApiFallback: true,
       devMiddleware: {

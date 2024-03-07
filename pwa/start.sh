@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## check if in docker
-doppler --project 007 --config dev secrets download --no-file --format env >> .env
+# doppler --project 007 --config dev secrets download --no-file --format env >> .env
 
 
 # echo "EXPO_PUBLIC_GEOLOCATION_API=$EXPO_PUBLIC_GEOLOCATION_API" >> ".env"
@@ -12,4 +12,4 @@ doppler --project 007 --config dev secrets download --no-file --format env >> .e
 
 webpack serve
 ## Delete .env on webpack exit
-rm .env
+# rm .env

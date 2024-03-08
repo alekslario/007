@@ -1,42 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonPage } from '@ionic/react';
-import './MainPage.css';
-import PageWrapper from '../components/PageWrapper.js';
-import WeatherData from '../components/WeatherData.js';
-import MainInfo from '../components/MainInfo.js';
-import { darkTheme } from '../global.js';
-import TempChart from '../components/TempChart.js';
-import BottomDrawer from '../components/BottomDrawer.js';
-import Map from '../components/Map.js';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { IonContent, IonPage } from "@ionic/react";
+import "./MainPage.css";
+import PageWrapper from "../components/PageWrapper.js";
+import WeatherData from "../components/WeatherData.js";
+import MainInfo from "../components/MainInfo.js";
+import { darkTheme } from "../global.js";
+
+import BottomDrawer from "../components/BottomDrawer.js";
+import Map from "../components/Map.js";
+import { useSelector } from "react-redux";
+import MuiChart from "../components/MuiChart.js";
 
 const MainPage = () => {
-  const { current, options, selectedIndex } = useSelector((state) => state.location);
+  const { current, options, selectedIndex } = useSelector(
+    (state) => state.location
+  );
   const [showInput, setShowInput] = useState(false);
   const { lat, lon } = selectedIndex > 0 ? options[selectedIndex - 1] : current;
   useEffect(() => {
     const isDismissed = () => {
       setShowInput(false);
     };
-    document.addEventListener('ionModalDidDismiss', isDismissed);
-    return () => document.removeEventListener('ionModalDidDismiss', isDismissed);
+    document.addEventListener("ionModalDidDismiss", isDismissed);
+    return () =>
+      document.removeEventListener("ionModalDidDismiss", isDismissed);
   }, []);
 
+  const handleScroll = (e) => {
+    const node = document.querySelector(".base-Popper-root");
+    if (node) {
+      node.style.display = "none";
+    }
+  };
   return (
     <IonPage>
       <IonContent
+        scrollEvents={true}
+        onIonScroll={handleScroll}
         fullscreen={true}
         style={{
-          '--background': darkTheme.backgroundColor,
+          "--background": darkTheme.backgroundColor,
           // '--overflow': 'hidden',
         }}
       >
-        <PageWrapper style={{ padding: '0px' }}>
-          {lat && lon && <Map lat={lat || 0} lon={lon || 0} setShowInput={setShowInput} />}
+        <PageWrapper style={{ padding: "0px" }}>
+          {lat && lon && (
+            <Map lat={lat || 0} lon={lon || 0} setShowInput={setShowInput} />
+          )}
           <MainInfo />
-          <TempChart />
+          <MuiChart />
           <WeatherData />
           <BottomDrawer show={showInput} />
+          {/* the only way to add padding. Capacitor, wtf? */}
+          <div style={{ height: "100px", width: "100%", color: "transparent" }}>
+            a
+          </div>
         </PageWrapper>
       </IonContent>
     </IonPage>

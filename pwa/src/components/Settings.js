@@ -124,7 +124,7 @@ export default function Settings({ navigation }) {
       <h1
         style={{
           marginTop: 20,
-          color: darkTheme.seconDaryText,
+          color: darkTheme.secondaryText,
           fontSize: 18,
           marginBottom: 20,
           fontFamily: "Roboto-Bold",
@@ -136,7 +136,7 @@ export default function Settings({ navigation }) {
       <h1
         style={{
           marginTop: 20,
-          color: darkTheme.seconDaryText,
+          color: darkTheme.secondaryText,
           fontSize: 18,
           marginBottom: 20,
           fontFamily: "Roboto-Bold",

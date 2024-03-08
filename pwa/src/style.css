@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Urbanist:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Urbanist:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -18,10 +18,10 @@
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 .secondFont {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
 }
 .row {
   display: flex;
@@ -214,4 +214,36 @@ ion-modal ion-backdrop {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.MuiChartsAxis-line {
+  display: none;
+}
+.MuiChartsAxis-tick {
+  stroke: white !important;
+}
+.MuiChartsAxis-tickLabel {
+  stroke: white !important;
+}
+
+.MuiHighlightElement-root {
+  r: 10;
+  fill: #4cbeff !important;
+}
+.MuiChartsTooltip-mark {
+  background-color: #4cbeff !important;
+  border: none !important;
+}
+.MuiChartsTooltip-root {
+  background: #353535 !important;
+}
+.MuiTypography-root {
+  color: white;
+}
+
+.MuiChartsAxisHighlight-root {
+  stroke: white !important;
+}
+.MuiChartsLegend-mark {
+  display: none;
 }

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { IonContent, IonPage } from "@ionic/react";
-import "./SettingsPage.css";
 import PageWrapper from "../components/PageWrapper.js";
 import Settings from "../components/Settings.js";
 import { darkTheme } from "../global.js";

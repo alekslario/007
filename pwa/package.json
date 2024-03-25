@@ -6,6 +6,7 @@
   "author": "Alex",
   "license": "ISC",
   "scripts": {
+    "start": "webpack serve",
     "build:dev": "webpack",
     "build:prod:win": "NODE_ENV=production && webpack",
     "devs": "bash start.sh",
@@ -23,7 +24,6 @@
     "@mui/x-charts": "^6.19.5",
     "@reduxjs/toolkit": "^2.2.1",
     "@tabler/icons-react": "^2.47.0",
-    "chart.js": "^4.4.2",
     "core-js": "^3.25.5",
     "embla-carousel-react": "^8.0.0",
     "framer-motion": "^10.12.10",

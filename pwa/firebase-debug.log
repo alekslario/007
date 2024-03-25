@@ -1,0 +1,56 @@
+[debug] [2024-03-20T23:07:49.338Z] ----------------------------------------------------------------------
+[debug] [2024-03-20T23:07:49.340Z] Command:       C:\Users\Alex\AppData\Local\Volta\tools\image\node\21.5.0\node.exe C:\Users\Alex\AppData\Local\Volta\tools\image\packages\firebase-tools\node_modules\firebase-tools\lib\bin\firebase.js init hosting
+[debug] [2024-03-20T23:07:49.341Z] CLI Version:   13.5.2
+[debug] [2024-03-20T23:07:49.341Z] Platform:      win32
+[debug] [2024-03-20T23:07:49.341Z] Node Version:  v21.5.0
+[debug] [2024-03-20T23:07:49.341Z] Time:          Wed Mar 20 2024 23:07:49 GMT+0000 (Greenwich Mean Time)
+[debug] [2024-03-20T23:07:49.342Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-03-20T23:07:49.350Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-03-20T23:07:49.351Z] > authorizing via signed-in user (aleksandlario@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\Alex\Desktop\cm-project\pwa
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2024-03-20T23:09:40.954Z] ----------------------------------------------------------------------
+[debug] [2024-03-20T23:09:40.957Z] Command:       C:\Users\Alex\AppData\Local\Volta\tools\image\node\21.5.0\node.exe C:\Users\Alex\AppData\Local\Volta\tools\image\packages\firebase-tools\node_modules\firebase-tools\lib\bin\firebase.js init hosting
+[debug] [2024-03-20T23:09:40.958Z] CLI Version:   13.5.2
+[debug] [2024-03-20T23:09:40.958Z] Platform:      win32
+[debug] [2024-03-20T23:09:40.958Z] Node Version:  v21.5.0
+[debug] [2024-03-20T23:09:40.958Z] Time:          Wed Mar 20 2024 23:09:40 GMT+0000 (Greenwich Mean Time)
+[debug] [2024-03-20T23:09:40.958Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-03-20T23:09:40.967Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-03-20T23:09:40.967Z] > authorizing via signed-in user (aleksandlario@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\Alex\Desktop\cm-project\pwa
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 

@@ -91,7 +91,7 @@ const ColorLegendText = () => {
       {["#58ff42", "#ff5f5e", "#4f54cf", "#4798ec", "#58fd44", "#c9e2c5"].map(
         (color, i) => {
           return (
-            <Row style={{ alignItems: "center" }}>
+            <Row style={{ alignItems: "center" }} key={i}>
               <div
                 style={{
                   width: "15px",

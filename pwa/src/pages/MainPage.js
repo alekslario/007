@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { IonContent, IonPage } from "@ionic/react";
-import "./MainPage.css";
 import PageWrapper from "../components/PageWrapper.js";
 import WeatherData from "../components/WeatherData.js";
 import MainInfo from "../components/MainInfo.js";

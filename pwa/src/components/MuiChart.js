@@ -3,6 +3,16 @@ import { LineChart } from "@mui/x-charts/LineChart";
 import { darkTheme } from "../global";
 import { getTime } from "../utils/utils";
 import { useSelector } from "react-redux";
+import styled from "@emotion/styled";
+
+const ChartWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+`;
 export const MuiChart = () => {
   const data = useSelector((state) => state.data);
   const { hourly } = data?.data || {};
@@ -17,17 +27,17 @@ export const MuiChart = () => {
 
   //slice the temperature data to match the filtered time
   const filteredTemperature = temperature_2m.slice(0, filteredTime.length);
-  console.log(filteredTime);
+  const handleClickInside = () => {
+    const node = document.querySelector(".base-Popper-root");
+    if (node && node.style.display === "none") {
+      // with some delay to prevent flickering
+      setTimeout(() => {
+        node.style.display = "block";
+      }, 100);
+    }
+  };
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: `100%`,
-        width: `100%`,
-      }}
-    >
+    <ChartWrapper onClick={handleClickInside}>
       <LineChart
         xAxis={[
           {
@@ -45,16 +55,10 @@ export const MuiChart = () => {
         ]}
         width={500}
         height={300}
+        tooltip={{ trigger: "axis" }}
       />
-    </div>
+    </ChartWrapper>
   );
 };
 
 export default MuiChart;
-
-// xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
-//     series={[
-//       {
-//         data: [2, 5.5, 2, 8.5, 1.5, 5],
-//       },
-//     ]}

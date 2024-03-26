@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 // Remove React Native specific imports
-import { formatDate, getTime } from '../utils/utils';
-import { darkTheme } from '../global';
-import styled from '@emotion/styled';
-import EmblaCarousel from './EmblaCarousel';
-import { Row } from './Flex';
-import { ActionIcon } from '@mantine/core';
-import { IconCaretLeft, IconCaretRight } from '@tabler/icons-react';
+import { formatDate, getTime } from "../utils/utils";
+import { darkTheme } from "../global";
+import styled from "@emotion/styled";
+import EmblaCarousel from "./EmblaCarousel";
+import { Row } from "./Flex";
+import { ActionIcon } from "@mantine/core";
+import { IconCaretLeft, IconCaretRight } from "@tabler/icons-react";
 
 export const MainInfo = () => {
   const {
@@ -23,31 +23,33 @@ export const MainInfo = () => {
   return (
     <div
       style={{
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
         color: darkTheme.mainText,
-        padding: '20px',
+        padding: "20px",
 
         // minHeight: window.innerHeight * 0.8,
       }}
     >
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          margin: '6px',
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "6px",
         }}
       >
         {Array.from({ length: options.length + 1 }).map((_, index) => (
           <div
+            key={index}
             style={{
-              width: '12px',
-              height: '12px',
-              borderRadius: '50%',
-              margin: '0 3px',
-              backgroundColor: index === selectedIndex ? darkTheme.active : darkTheme.mainText,
+              width: "12px",
+              height: "12px",
+              borderRadius: "50%",
+              margin: "0 3px",
+              backgroundColor:
+                index === selectedIndex ? darkTheme.active : darkTheme.mainText,
             }}
           ></div>
         ))}
@@ -55,11 +57,11 @@ export const MainInfo = () => {
 
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          margin: '6px',
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "6px",
         }}
       >
         <ActionIcon>
@@ -88,30 +90,30 @@ export const MainInfo = () => {
 
 const styles = {
   container: {
-    display: 'flex',
+    display: "flex",
 
-    alignItems: 'center',
+    alignItems: "center",
 
-    justifyContent: 'left',
-    flexDirection: 'row',
+    justifyContent: "left",
+    flexDirection: "row",
 
-    width: '100%',
+    width: "100%",
   },
   weather: {
-    fontSize: ' 40px',
-    fontWeight: 'bold',
+    fontSize: " 40px",
+    fontWeight: "bold",
   },
   dateContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    textAlign: 'center',
-    textWrap: 'nowrap',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    textAlign: "center",
+    textWrap: "nowrap",
+    justifyContent: "center",
+    alignItems: "center",
   },
   date: {
-    fontSize: '20px',
-    fontWeight: 'bold',
+    fontSize: "20px",
+    fontWeight: "bold",
   },
 };
 

@@ -15,13 +15,29 @@ export const formatDate = (milliseconds) => {
   return [`${day} ${dayOfTheWeek}`, `${time}`];
 };
 
-export const getTime = (milliseconds) => {
+const getTime12h = (milliseconds) => {
+  const date = new Date(milliseconds);
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
+  const ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12 || 12; // Convert hours to 12-hour format
+
+  return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
+};
+
+const getTime24h = (milliseconds) => {
   const date = new Date(milliseconds);
   const hours = date.getHours();
   const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
+  // const seconds = date.getSeconds();
 
-  return `${hours}:${minutes === 0 ? "00" : minutes}`;
+  return `${hours < 10 ? "0" + hours : hours}:${
+    minutes < 10 ? "0" + minutes : minutes
+  }`;
+};
+
+export const getTime = (milliseconds, format = "24h") => {
+  return format === "24h" ? getTime24h(milliseconds) : getTime12h(milliseconds);
 };
 
 export const getTimeArray = (size) => {

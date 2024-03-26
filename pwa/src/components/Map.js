@@ -185,7 +185,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     if (!loaded) return;
 
     let img = new Image(190, 190);
-    img.onload = () => map.current.addImage("cat", img);
+    img.onload = () => map.current.addImage("target", img);
     img.src = "./images/target.svg";
 
     // Add a data source containing one point feature.
@@ -211,7 +211,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
       type: "symbol",
       source: "point", // reference the data source
       layout: {
-        "icon-image": "current", // reference the image
+        "icon-image": "target", // reference the image
         "icon-size": 0.25,
       },
     });

@@ -8,7 +8,7 @@
   "scripts": {
     "start": "webpack serve",
     "build:dev": "webpack",
-    "build:prod:win": "NODE_ENV=production && webpack",
+    "build:prod:win": "SET NODE_ENV=production && webpack",
     "devs": "bash start.sh",
     "docker": "doppler --project 007 --config dev run -- docker compose up",
     "prepare": "husky",

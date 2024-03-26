@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from "react";
 import {
   IonButton,
   IonModal,
@@ -14,16 +14,16 @@ import {
   IonImg,
   IonButtons,
   IonSearchbar,
-} from '@ionic/react';
-import { darkTheme } from '../global';
-import { useGetLatLon } from '../hooks/useGetLatLon';
-import { useDispatch, useSelector } from 'react-redux';
-import { addLocation, removeLocation } from '../utils/store';
-import { ActionIcon } from '@mantine/core';
-import { IconMoodEmptyFilled, IconTrashFilled } from '@tabler/icons-react';
+} from "@ionic/react";
+import { darkTheme } from "../global";
+import { useGetLatLon } from "../hooks/useGetLatLon";
+import { useDispatch, useSelector } from "react-redux";
+import { addLocation, removeLocation } from "../utils/store";
+import { ActionIcon } from "@mantine/core";
+import { IconMoodEmptyFilled, IconTrashFilled } from "@tabler/icons-react";
 export const BottomDrawer = ({ show }) => {
   const modal = useRef(null);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const dispatch = useDispatch();
   const { options } = useSelector((state) => state.location);
   useEffect(() => {
@@ -32,24 +32,29 @@ export const BottomDrawer = ({ show }) => {
       const data = e.detail.value;
       setValue(data);
     };
-    document.addEventListener('ionInput', setState);
-    return () => document.removeEventListener('ionInput', setState);
+    document.addEventListener("ionInput", setState);
+    return () => document.removeEventListener("ionInput", setState);
   }, []);
   const matchedLocations = useGetLatLon(value);
   console.log(matchedLocations);
   return (
     <IonModal
       style={{
-        '--ion-background-color': darkTheme.secondaryBackgroundColor,
+        "--ion-background-color": darkTheme.secondaryBackgroundColor,
       }}
       ref={modal}
       initialBreakpoint={0.65}
       isOpen={show}
     >
-      {' '}
+      {" "}
       <IonHeader>
-        {' '}
-        <IonToolbar style={{ position: 'sticky' }}>
+        {" "}
+        <IonToolbar
+          style={{
+            position: "sticky",
+            "--background": darkTheme.secondaryBackgroundColor,
+          }}
+        >
           <IonButtons slot="end">
             <IonButton color="light" onClick={() => modal.current?.dismiss()}>
               Close
@@ -58,11 +63,11 @@ export const BottomDrawer = ({ show }) => {
         </IonToolbar>
         <IonSearchbar
           style={{
-            '--background': darkTheme.card,
-            '--color': darkTheme.mainText,
-            '--icon-color': darkTheme.active,
-            '--clear-button-color': darkTheme.active,
-            '--border-radius': '10px',
+            "--background": darkTheme.card,
+            "--color": darkTheme.mainText,
+            "--icon-color": darkTheme.active,
+            "--clear-button-color": darkTheme.active,
+            "--border-radius": "10px",
           }}
           placeholder="Search"
         ></IonSearchbar>
@@ -70,7 +75,7 @@ export const BottomDrawer = ({ show }) => {
       <IonContent className="ion-padding">
         <ul
           style={{
-            overflow: 'scroll',
+            overflow: "scroll",
           }}
         >
           {matchedLocations.map((location, index) => {
@@ -79,13 +84,19 @@ export const BottomDrawer = ({ show }) => {
               <IonItem
                 key={index}
                 style={{
-                  '--color': darkTheme.mainText,
+                  "--color": darkTheme.mainText,
                 }}
               >
                 <IonLabel
                   onClick={() => {
-                    dispatch(addLocation({ lat: latitude, lon: longitude, name: `${name}, ${admin1}` }));
-                    setValue('');
+                    dispatch(
+                      addLocation({
+                        lat: latitude,
+                        lon: longitude,
+                        name: `${name}, ${admin1}`,
+                      })
+                    );
+                    setValue("");
                     modal.current?.dismiss();
                   }}
                 >
@@ -106,7 +117,7 @@ export const BottomDrawer = ({ show }) => {
                   Your saved locations
                 </p>
               )}
-              <IonList style={{ height: '100%' }}>
+              <IonList style={{ height: "100%" }}>
                 {options.map(({ lon, lat, name }, index) => {
                   return (
                     <IonItem
@@ -116,7 +127,7 @@ export const BottomDrawer = ({ show }) => {
                         modal.current?.dismiss();
                       }}
                       style={{
-                        '--color': darkTheme.mainText,
+                        "--color": darkTheme.mainText,
                       }}
                     >
                       <IonLabel>
@@ -132,7 +143,7 @@ export const BottomDrawer = ({ show }) => {
             </>
           )}
         </ul>
-        <div style={{ height: '300px' }}></div>
+        <div style={{ height: "300px" }}></div>
       </IonContent>
     </IonModal>
   );

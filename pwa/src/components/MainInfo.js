@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 // Remove React Native specific imports
-import { formatDate, getTime } from "../utils/utils";
+import { formatDate, getTime, toFahrenheit } from "../utils/utils";
 import { darkTheme } from "../global";
 import styled from "@emotion/styled";
 import EmblaCarousel from "./EmblaCarousel";
@@ -13,8 +13,13 @@ export const MainInfo = () => {
   const {
     data: { currentTemperature, currentTime },
     location: { selectedIndex, options },
-  } = useSelector((state) => {
-    return { data: state.data, location: state.location };
+    preferences,
+  } = useSelector((state, preferences) => {
+    return {
+      data: state.data,
+      location: state.location,
+      preferences: state.preferences,
+    };
   });
 
   const weather = currentTemperature;
@@ -75,13 +80,23 @@ export const MainInfo = () => {
 
       <Row>
         <div style={styles.container}>
-          <div style={styles.weather}>{weather}°</div>
-          <div style={styles.weather}>C</div>
+          <div style={styles.weather}>
+            {preferences.temperatureUnit.selected === "C"
+              ? weather
+              : toFahrenheit(weather)}
+            °
+          </div>
+          <div style={styles.weather}>
+            {preferences.temperatureUnit.selected}
+          </div>
         </div>
         <div style={styles.dateContainer}>
           <div style={{ ...styles.dateContainer, ...styles.date }}>{date}</div>
           &nbsp;
-          <div style={styles.date}>{`${getTime(Date.now())}`}</div>
+          <div style={styles.date}>{`${getTime(
+            Date.now(),
+            preferences.timeFormat.selected
+          )}`}</div>
         </div>
       </Row>
     </div>

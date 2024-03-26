@@ -36,6 +36,10 @@ const getTime24h = (milliseconds) => {
   }`;
 };
 
+export const toFahrenheit = (celsius) => {
+  return Math.round((celsius * 9) / 5 + 32);
+};
+
 export const getTime = (milliseconds, format = "24h") => {
   return format === "24h" ? getTime24h(milliseconds) : getTime12h(milliseconds);
 };

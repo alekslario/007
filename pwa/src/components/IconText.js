@@ -1,7 +1,11 @@
 import React from "react";
-import { darkTheme } from "../global";
+import { darkTheme, lightTheme } from "../global";
+import { useSelector } from "react-redux";
 
 export const IconText = ({ children, text, number, units }) => {
+  const preferences = useSelector((state) => state.preferences);
+  const theme = preferences.theme.selected === "dark" ? darkTheme : lightTheme;
+  const styles = getStyles(theme);
   return (
     <div style={styles.container}>
       {children}
@@ -9,13 +13,13 @@ export const IconText = ({ children, text, number, units }) => {
       <div style={styles.numberContainer}>
         <span style={styles.number}>{number}</span>
         &nbsp;
-        <span style={{ color: darkTheme.secondaryText }}>{units}</span>
+        <span style={{ color: theme.secondaryText }}>{units}</span>
       </div>
     </div>
   );
 };
 
-const styles = {
+const getStyles = (theme) => ({
   container: {
     display: "flex",
     justifyContent: "center",
@@ -23,10 +27,10 @@ const styles = {
     flexDirection: "column",
   },
   text: {
-    color: darkTheme.secondaryText,
+    color: theme.secondaryText,
   },
   units: {
-    color: darkTheme.secondaryText,
+    color: theme.secondaryText,
   },
   numberContainer: {
     display: "flex",
@@ -35,8 +39,8 @@ const styles = {
   },
   number: {
     fontSize: "18px",
-    color: darkTheme.mainText,
+    color: theme.mainText,
   },
-};
+});
 
 export default IconText;

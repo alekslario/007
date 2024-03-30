@@ -32,51 +32,6 @@ body {
   flex-direction: column;
 }
 
-.slider-hours {
-  position: relative;
-  width: 15px;
-  color: transparent;
-  font-size: 12px;
-  display: flex;
-  text-align: center;
-}
-
-.slider-hours::before {
-  left: 0;
-  display: inline-block;
-  content: attr(data-hour);
-  z-index: 1;
-  color: black;
-  position: absolute;
-  width: 50px;
-  top: 0;
-  left: 50%;
-  margin-left: -5px;
-  pointer-events: none;
-}
-.slider-days {
-  color: transparent;
-  position: relative;
-  width: 10px;
-
-  font-size: 12px;
-  display: flex;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.slider-days::before {
-  display: inline-block;
-  content: attr(data-day);
-  z-index: 1;
-  color: #888888;
-  position: absolute;
-  width: 50px;
-  left: 11px;
-  margin-left: -5px;
-  pointer-events: none;
-}
-
 .react-horizontal-scrolling-menu--wrapper {
   width: 80%;
   margin: 0 auto;

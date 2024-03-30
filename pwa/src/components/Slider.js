@@ -5,11 +5,12 @@ import {
   IconPlayerPauseFilled,
   IconPlayerPlayFilled,
 } from "@tabler/icons-react";
-import { darkTheme } from "../global";
+import { darkTheme, lightTheme } from "../global";
 import { getTime, getTimeArray } from "../utils/utils";
+import { useSelector } from "react-redux";
 
 const Button = styled.button`
-  background-color: ${darkTheme.secondaryBackgroundColor};
+  background-color: ${({ theme }) => theme.secondaryBackgroundColor};
   margin-left: 20px;
   border-radius: 10px;
   /* padding: 12px; */
@@ -27,24 +28,24 @@ const SliderContainer = styled.div`
   justify-content: center;
   align-items: center;
   .mantine-Slider-thumb {
-    background-color: ${darkTheme.active};
-    border: 6px solid ${darkTheme.backgroundColor};
+    background-color: ${({ theme }) => theme.active};
+    border: 6px solid ${({ theme }) => theme.backgroundColor};
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 
     transition: all 0.2s ease-in-out;
   }
   .mantine-Slider-track {
-    background-color: ${darkTheme.secondaryBackgroundColor};
+    background-color: ${({ theme }) => theme.secondaryBackgroundColor};
   }
   .mantine-Slider-bar {
-    background-color: ${darkTheme.active};
+    background-color: ${({ theme }) => theme.active};
     transition: all 0.2s ease-in-out;
   }
   .mantine-m0g192::before {
-    background-color: ${darkTheme.secondaryBackgroundColor};
+    background-color: ${({ theme }) => theme.secondaryBackgroundColor};
   }
   .play-icons path {
-    fill: ${darkTheme.active};
+    fill: ${({ theme }) => theme.active};
   }
   .mantine-Slider-root {
     width: 70%;
@@ -58,7 +59,7 @@ const SliderWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: ${darkTheme.card};
+  background-color: ${({ theme }) => theme.card};
 
   border-radius: 10px;
   padding: 5px 5px 5px 6px;
@@ -72,6 +73,8 @@ export const Slider = ({
   sliderCallback,
   ...props
 }) => {
+  const [preferences] = useSelector((state) => [state.preferences]);
+  const theme = preferences.theme.selected === "dark" ? darkTheme : lightTheme;
   const timeArray = getTimeArray(overlays.length);
   const marks = timeArray.map((time, index) => {
     return { value: index + 1, label: time };
@@ -81,8 +84,8 @@ export const Slider = ({
     return acc;
   }, {});
   return (
-    <SliderContainer>
-      <SliderWrapper>
+    <SliderContainer theme={theme}>
+      <SliderWrapper theme={theme}>
         <ManSlider
           thumbSize={20}
           label={(val) => {
@@ -97,13 +100,13 @@ export const Slider = ({
           styles={{
             markLabel: { display: "none" },
             track: {
-              "background-color": darkTheme.secondaryBackgroundColor,
-              border: darkTheme.secondaryBackgroundColor,
+              "background-color": theme.secondaryBackgroundColor,
+              border: theme.secondaryBackgroundColor,
             },
           }}
           onChange={sliderCallback}
         />
-        <Button {...props}>
+        <Button {...props} theme={theme}>
           {!play ? (
             <IconPlayerPlayFilled className="play-icons" size={16} />
           ) : (

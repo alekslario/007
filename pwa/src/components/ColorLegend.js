@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import ActionButton from "./ActionButton";
 import { ActionIcon } from "@mantine/core";
 import { IconCaretRight, IconCaretLeft } from "@tabler/icons-react";
 import styled from "@emotion/styled";
-import { darkTheme } from "../global";
+import { darkTheme, lightTheme } from "../global";
 import { Row, Col } from "./Flex";
+import { useSelector } from "react-redux";
 const colors = {
   0: "#dfdfdfff",
   15: "#9bea8fff",
@@ -29,7 +29,7 @@ const ColorMeterWrapper = styled.div`
 `;
 
 const ColorLegendWrapper = styled.div`
-  background-color: ${darkTheme.card};
+  background-color: ${({ theme }) => theme.card};
   border-radius: 15px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
   display: flex;
@@ -60,11 +60,11 @@ const ColorMeter = () => {
 };
 
 const Text = styled.div`
-  color: ${darkTheme.mainText};
+  color: ${({ theme }) => theme.mainText};
 `;
 const SubText = styled.div`
   font-size: 12px;
-  color: ${darkTheme.seconDaryText};
+  color: ${({ theme }) => theme.seconDaryText};
 `;
 
 const texts = [
@@ -76,7 +76,7 @@ const texts = [
   ["Extreme rain", ">30.0 mm/h"],
 ];
 
-const ColorLegendText = () => {
+const ColorLegendText = ({ theme }) => {
   return (
     <div
       style={{
@@ -102,8 +102,8 @@ const ColorLegendText = () => {
                 }}
               ></div>
               <Col>
-                <Text>{texts[i][0]}</Text>
-                <SubText>{texts[i][1]}</SubText>
+                <Text theme={theme}>{texts[i][0]}</Text>
+                <SubText theme={theme}>{texts[i][1]}</SubText>
               </Col>
             </Row>
           );
@@ -113,13 +113,18 @@ const ColorLegendText = () => {
   );
 };
 export const ColorLegend = () => {
+  const [preferences] = useSelector((state) => [state.preferences]);
+  const theme = preferences.theme.selected === "dark" ? darkTheme : lightTheme;
   const [show, setShow] = useState(false);
   return (
-    <ColorLegendWrapper style={{ width: show ? "200px" : "40px" }}>
+    <ColorLegendWrapper
+      style={{ width: show ? "200px" : "40px" }}
+      theme={theme}
+    >
       <Col>
         <Row>
           <ColorMeter />
-          <ColorLegendText />
+          <ColorLegendText theme={theme} />
         </Row>
         <ActionIcon
           style={{
@@ -130,9 +135,9 @@ export const ColorLegend = () => {
           }}
         >
           {show ? (
-            <IconCaretLeft fill={darkTheme.active} stroke={darkTheme.active} />
+            <IconCaretLeft fill={theme.active} stroke={theme.active} />
           ) : (
-            <IconCaretRight fill={darkTheme.active} stroke={darkTheme.active} />
+            <IconCaretRight fill={theme.active} stroke={theme.active} />
           )}
         </ActionIcon>
       </Col>

@@ -13,7 +13,7 @@ import {
 import styled from "@emotion/styled";
 import { IconText } from "./IconText";
 
-import { darkTheme } from "../global";
+import { darkTheme, lightTheme } from "../global";
 
 const Wrapper = styled.div`
   display: grid;
@@ -22,9 +22,11 @@ const Wrapper = styled.div`
   margin: 20px;
 `;
 export const WeatherData = () => {
-  const { selectedDay, weatherMap, currentTime } = useSelector(
-    (state) => state.data
+  const [{ selectedDay, weatherMap, currentTime }, preferences] = useSelector(
+    (state) => [state.data, state.preferences]
   );
+
+  const theme = preferences.theme.selected === "dark" ? darkTheme : lightTheme;
   const keys = Object.keys(weatherMap).sort((a, b) => a - b);
   // get first key that is over current time
   const date = keys.find((k) => k > currentTime);
@@ -38,21 +40,21 @@ export const WeatherData = () => {
             number={`${data["apparent_temperature"]}°`}
             units={"C"}
           >
-            <FeelsLike fill={darkTheme.mainText} />
+            <FeelsLike fill={theme.mainText} />
           </IconText>
           <IconText
             text={"Precipitation"}
             number={`${data["precipitation"]}`}
             units={"h"}
           >
-            <Precipitation fill={darkTheme.mainText} />
+            <Precipitation fill={theme.mainText} />
           </IconText>
           <IconText
             text={"Cloud cover"}
             number={`${data["cloud_cover"]}`}
             units={"%"}
           >
-            <CloudCover fill={darkTheme.mainText} />
+            <CloudCover fill={theme.mainText} />
           </IconText>
 
           <IconText
@@ -60,21 +62,21 @@ export const WeatherData = () => {
             number={`${data["wind_speed_10m"]}`}
             units={"km/h"}
           >
-            <Wind fill={darkTheme.mainText} />
+            <Wind fill={theme.mainText} />
           </IconText>
           <IconText
             text={"Pressure"}
             number={`${data["surface_pressure"]}`}
             units={"mBar"}
           >
-            <Pressure fill={darkTheme.mainText} />
+            <Pressure fill={theme.mainText} />
           </IconText>
           <IconText
             text={"Humidity"}
             number={`${data["relative_humidity_2m"]}`}
             units={"%"}
           >
-            <Humidity fill={darkTheme.mainText} />
+            <Humidity fill={theme.mainText} />
           </IconText>
 
           <IconText
@@ -82,17 +84,17 @@ export const WeatherData = () => {
             number={`${data["dew_point_2m"]}°`}
             units={"C"}
           >
-            <DrewPoint fill={darkTheme.mainText} />
+            <DrewPoint fill={theme.mainText} />
           </IconText>
           <IconText
             text={"UV index"}
             number={`${data["uv_index"]}`}
             units={"/11"}
           >
-            <UVindex fill={darkTheme.mainText} />
+            <UVindex fill={theme.mainText} />
           </IconText>
           <IconText text={"UV index"} number={4} units={"/11"}>
-            <UVindex fill={darkTheme.mainText} />
+            <UVindex fill={theme.mainText} />
           </IconText>
         </Wrapper>
       )}

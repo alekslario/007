@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import Fly from "../svg/Fly";
 import styled from "@emotion/styled";
 import { ActionButton } from "./ActionButton";
-import { darkTheme } from "../global";
+import { darkTheme, lightTheme } from "../global";
 import {
   IconLocationFilled,
   IconAdjustments,
@@ -29,7 +29,11 @@ const MapWrapper = styled.div`
 `;
 
 export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
-  const current = useSelector((state) => state.location.current);
+  const [current, preferences] = useSelector((state) => [
+    state.location.current,
+    state.preferences,
+  ]);
+  const theme = preferences.theme.selected === "dark" ? darkTheme : lightTheme;
   const history = useHistory();
   const [selectedLayer, setSelectedLayer] = useState(0);
   const [maps, setMaps] = useState([]);
@@ -277,8 +281,8 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
           setPlay(!play);
         }}
       />
-      <ActionButton onClick={goToStart}>
-        <IconLocationFilled size={20} stroke={darkTheme.active} />
+      <ActionButton onClick={goToStart} theme={theme}>
+        <IconLocationFilled size={20} stroke={theme.active} />
       </ActionButton>
 
       <ActionButton
@@ -288,7 +292,8 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
         onClick={() => {
           history.push("/settings");
         }}
-        stroke={darkTheme.active}
+        stroke={theme.active}
+        theme={theme}
       >
         <IconAdjustments />
       </ActionButton>
@@ -301,7 +306,8 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
         onClick={() => {
           setShowInput(true);
         }}
-        stroke={darkTheme.active}
+        stroke={theme.active}
+        theme={theme}
       >
         <IconPlus />
       </ActionButton>

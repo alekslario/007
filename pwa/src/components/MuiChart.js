@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { darkTheme } from "../global";
-import { getTime } from "../utils/utils";
+import { getTime, toFahrenheit } from "../utils/utils";
 import { useSelector } from "react-redux";
 import styled from "@emotion/styled";
 
@@ -14,7 +14,10 @@ const ChartWrapper = styled.div`
   position: relative;
 `;
 export const MuiChart = () => {
-  const data = useSelector((state) => state.data);
+  const { data, preferences } = useSelector((state) => ({
+    data: state.data,
+    preferences: state.preferences,
+  }));
   const { hourly } = data?.data || {};
   const { temperature_2m = [], time = [] } = hourly || {};
 
@@ -26,7 +29,11 @@ export const MuiChart = () => {
     .sort((a, b) => a - b);
 
   //slice the temperature data to match the filtered time
-  const filteredTemperature = temperature_2m.slice(0, filteredTime.length);
+  const filteredTemperature = temperature_2m
+    .slice(0, filteredTime.length)
+    .map((t) =>
+      preferences.temperatureUnit.selected === "C" ? t : toFahrenheit(t)
+    );
   const handleClickInside = () => {
     const node = document.querySelector(".base-Popper-root");
     if (node && node.style.display === "none") {

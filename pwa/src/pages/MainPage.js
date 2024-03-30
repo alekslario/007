@@ -3,7 +3,7 @@ import { IonContent, IonPage } from "@ionic/react";
 import PageWrapper from "../components/PageWrapper.js";
 import WeatherData from "../components/WeatherData.js";
 import MainInfo from "../components/MainInfo.js";
-import { darkTheme } from "../global.js";
+import { darkTheme, lightTheme } from "../global.js";
 
 import BottomDrawer from "../components/BottomDrawer.js";
 import Map from "../components/Map.js";
@@ -11,9 +11,10 @@ import { useSelector } from "react-redux";
 import MuiChart from "../components/MuiChart.js";
 
 const MainPage = () => {
-  const { current, options, selectedIndex } = useSelector(
-    (state) => state.location
+  const [{ current, options, selectedIndex }, preferences] = useSelector(
+    (state) => [state.location, state.preferences]
   );
+  const theme = preferences.theme.selected === "dark" ? darkTheme : lightTheme;
   const [showInput, setShowInput] = useState(false);
   const { lat, lon } = selectedIndex > 0 ? options[selectedIndex - 1] : current;
   useEffect(() => {
@@ -38,7 +39,7 @@ const MainPage = () => {
         onIonScroll={handleScroll}
         fullscreen={true}
         style={{
-          "--background": darkTheme.backgroundColor,
+          "--background": theme.backgroundColor,
           // '--overflow': 'hidden',
         }}
       >

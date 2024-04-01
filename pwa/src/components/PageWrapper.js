@@ -6,7 +6,7 @@ export const PageWrapper = styled.div`
   width: 100%;
   padding: 20px;
   min-height: 100vh;
-  background: #1f1f1f;
+  background: ${({ theme }) => theme.backgroundColor};
 `;
 
 export default PageWrapper;

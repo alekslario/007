@@ -43,7 +43,7 @@ const MainPage = () => {
           // '--overflow': 'hidden',
         }}
       >
-        <PageWrapper style={{ padding: "0px" }}>
+        <PageWrapper style={{ padding: "0px" }} theme={theme}>
           {lat && lon && (
             <Map lat={lat || 0} lon={lon || 0} setShowInput={setShowInput} />
           )}

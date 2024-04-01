@@ -26,7 +26,7 @@ const SettingsPage = () => {
           "--background": theme.backgroundColor,
         }}
       >
-        <PageWrapper>
+        <PageWrapper theme={theme}>
           <GoBack>
             <ActionButton style={{ position: "unset" }} theme={theme}>
               <IconChevronLeft onClick={() => history.goBack()} />

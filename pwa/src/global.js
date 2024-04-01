@@ -1,13 +1,13 @@
 export const lightTheme = {
-  secondaryBackgroundColor: "#F3F6FB",
-  backgroundColor: "#FEFEFE",
-  card: "#F3F6FB",
-  active: "#7364CE",
-  mainText: "#2C2727",
-  seconDaryText: "#888888",
-  disabledText: "#B6B0B0",
-  borderRadius: 10,
-  borderColor: "#888888",
+  secondaryBackgroundColor: "#f0f4f8",
+  backgroundColor: "#ffffff",
+  card: "#d6e4f0",
+  active: "#1e90ff",
+  mainText: "#333333",
+  secondaryText: "#666666",
+  disabledText: "#999999",
+  borderRadius: 6,
+  borderColor: "#cccccc",
 };
 
 export const darkTheme = {
@@ -17,7 +17,6 @@ export const darkTheme = {
   active: "#4cbeff",
   mainText: "#e8e4e4",
   secondaryText: "#aaa9a9",
-
   disabledText: "#B6B0B0",
   borderRadius: 10,
   borderColor: "#888888",

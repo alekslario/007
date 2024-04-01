@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import Fly from "../svg/Fly";
 import styled from "@emotion/styled";
 import { ActionButton } from "./ActionButton";
-import { darkTheme } from "../global";
+import { darkTheme, lightTheme } from "../global";
 import {
   IconLocationFilled,
   IconAdjustments,
@@ -29,7 +29,13 @@ const MapWrapper = styled.div`
 `;
 
 export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
-  const current = useSelector((state) => state.location.current);
+  const [current, preferences] = useSelector((state) => [
+    state.location.current,
+    state.preferences,
+  ]);
+  const [currentLayers, setCurrentLayers] = useState("Mapbox Dark");
+  const [currentTheme, setCurrentTheme] = useState("Mapbox Dark");
+  const theme = preferences.theme.selected === "dark" ? darkTheme : lightTheme;
   const history = useHistory();
   const [selectedLayer, setSelectedLayer] = useState(0);
   const [maps, setMaps] = useState([]);
@@ -46,6 +52,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
   const [loaded, setLoaded] = useState(false);
   const mapContainer = useRef(null);
   const map = useRef(null);
+
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -55,23 +62,71 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
       zoom: zoom,
       // attributionControl: false,
     });
+    //load styles
+
+    map.current.on("styledata", async () => {
+      const style = map.current.getStyle();
+      setCurrentTheme(style.name);
+    });
     // map.current.addControl(new mapboxgl.AttributionControl(), "top-left");
   }, []);
-  useEffect(() => {
-    if (!map.current) return; // wait for map to initialize
-    map.current.on("load", () => {
-      map.current.resize();
-      setLoaded(true);
-    });
-  }, []);
-
-  // `https://tile.openweathermap.org/map/${layers[selectedLayer]}/{z}/{x}/{y}.png?appid=${process.env.EXPO_PUBLIC_OPENWEATHERMAP_KEY}`
 
   useEffect(() => {
-    let finished = false;
-    if (!loaded || maps.length === 0 || finished) return;
-    finished = true;
+    if (!map.current || !loaded) return;
+    map.current.setStyle(
+      preferences.theme.selected === "dark"
+        ? "mapbox://styles/mapbox/dark-v11"
+        : "mapbox://styles/mapbox/light-v11"
+    );
+  }, [preferences.theme.selected]);
+
+  const setPointer = () => {
+    if (!map.current.hasImage("target")) {
+      let img = new Image(190, 190);
+      img.onload = () => {
+        map.current.addImage("target", img);
+      };
+      img.src = "./images/target.svg";
+    }
+    if (!map.current.getSource("points")) {
+      map.current.addSource("point", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              geometry: {
+                type: "Point",
+                coordinates: [lon, lat],
+              },
+            },
+          ],
+        },
+      });
+    }
+
+    // if (map.current.getLayer("points")) {
+    //   map.current.removeLayer("points");
+    // }
+
+    // Add a layer to use the image to represent the data.
+    if (!map.current.getLayer("points")) {
+      map.current.addLayer({
+        id: "points",
+        type: "symbol",
+        source: "point", // reference the data source
+        layout: {
+          "icon-image": "target", // reference the image
+          "icon-size": 0.25,
+        },
+      });
+    }
+  };
+
+  const setOverlay = () => {
     maps.forEach((tile, index) => {
+      if (map.current.getLayer(`rainviewer_${tile.path}`)) return;
       map.current.addLayer({
         id: `rainviewer_${tile.path}`,
         type: "raster",
@@ -87,6 +142,35 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
         maxzoom: 22,
       });
     });
+  };
+
+  useEffect(() => {
+    if (currentTheme !== currentLayers) {
+      setPointer();
+      setOverlay();
+      setCurrentLayers(currentTheme);
+    }
+  }, [currentTheme, currentLayers]);
+
+  useEffect(() => {
+    if (!loaded || !lightTheme) return;
+  }, [lightTheme]);
+
+  useEffect(() => {
+    if (!map.current) return; // wait for map to initialize
+    map.current.on("load", () => {
+      map.current.resize();
+      setLoaded(true);
+    });
+  }, []);
+
+  // `https://tile.openweathermap.org/map/${layers[selectedLayer]}/{z}/{x}/{y}.png?appid=${process.env.EXPO_PUBLIC_OPENWEATHERMAP_KEY}`
+
+  useEffect(() => {
+    let finished = false;
+    if (!loaded || maps.length === 0 || finished) return;
+    finished = true;
+    setOverlay();
   }, [loaded, maps.length]);
 
   useEffect(() => {
@@ -184,37 +268,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
   useEffect(() => {
     if (!loaded) return;
 
-    let img = new Image(190, 190);
-    img.onload = () => map.current.addImage("target", img);
-    img.src = "./images/target.svg";
-
-    // Add a data source containing one point feature.
-    map.current.addSource("point", {
-      type: "geojson",
-      data: {
-        type: "FeatureCollection",
-        features: [
-          {
-            type: "Feature",
-            geometry: {
-              type: "Point",
-              coordinates: [lon, lat],
-            },
-          },
-        ],
-      },
-    });
-
-    // Add a layer to use the image to represent the data.
-    map.current.addLayer({
-      id: "points",
-      type: "symbol",
-      source: "point", // reference the data source
-      layout: {
-        "icon-image": "target", // reference the image
-        "icon-size": 0.25,
-      },
-    });
+    setPointer();
   }, [loaded]);
 
   const goToStart = () => {
@@ -277,8 +331,8 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
           setPlay(!play);
         }}
       />
-      <ActionButton onClick={goToStart}>
-        <IconLocationFilled size={20} stroke={darkTheme.active} />
+      <ActionButton onClick={goToStart} theme={theme}>
+        <IconLocationFilled size={20} stroke={theme.active} />
       </ActionButton>
 
       <ActionButton
@@ -288,7 +342,8 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
         onClick={() => {
           history.push("/settings");
         }}
-        stroke={darkTheme.active}
+        stroke={theme.active}
+        theme={theme}
       >
         <IconAdjustments />
       </ActionButton>
@@ -301,7 +356,8 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
         onClick={() => {
           setShowInput(true);
         }}
-        stroke={darkTheme.active}
+        stroke={theme.active}
+        theme={theme}
       >
         <IconPlus />
       </ActionButton>

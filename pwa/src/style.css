@@ -32,62 +32,6 @@ body {
   flex-direction: column;
 }
 
-.slider-hours {
-  position: relative;
-  width: 15px;
-  color: transparent;
-  font-size: 12px;
-  display: flex;
-  text-align: center;
-}
-
-.slider-hours::before {
-  left: 0;
-  display: inline-block;
-  content: attr(data-hour);
-  z-index: 1;
-  color: black;
-  position: absolute;
-  width: 50px;
-  top: 0;
-  left: 50%;
-  margin-left: -5px;
-  pointer-events: none;
-}
-.slider-days {
-  color: transparent;
-  position: relative;
-  width: 10px;
-
-  font-size: 12px;
-  display: flex;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.slider-days::before {
-  display: inline-block;
-  content: attr(data-day);
-  z-index: 1;
-  color: #888888;
-  position: absolute;
-  width: 50px;
-  left: 11px;
-  margin-left: -5px;
-  pointer-events: none;
-}
-
-.react-horizontal-scrolling-menu--wrapper {
-  width: 80%;
-  margin: 0 auto;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  padding: 10px 15px;
-  background-color: #fff;
-  margin-bottom: 30px;
-  height: 70px;
-}
-
 *::-webkit-scrollbar {
   width: 0;
   height: 0;
@@ -160,21 +104,6 @@ ion-modal ion-backdrop {
   height: 100%;
 }
 
-/* .embla {
-  overflow: hidden;
-}
-.embla__container {
-  display: flex;
-}
-.embla__slide {
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 0 0 100%;
-  min-width: 0;
-} */
-
 .embla__slide {
   padding: 10px;
   display: flex;
@@ -214,36 +143,4 @@ ion-modal ion-backdrop {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.MuiChartsAxis-line {
-  display: none;
-}
-.MuiChartsAxis-tick {
-  stroke: white !important;
-}
-.MuiChartsAxis-tickLabel {
-  stroke: white !important;
-}
-
-.MuiHighlightElement-root {
-  r: 10;
-  fill: #4cbeff !important;
-}
-.MuiChartsTooltip-mark {
-  background-color: #4cbeff !important;
-  border: none !important;
-}
-.MuiChartsTooltip-root {
-  background: #353535 !important;
-}
-.MuiTypography-root {
-  color: white;
-}
-
-.MuiChartsAxisHighlight-root {
-  stroke: white !important;
-}
-.MuiChartsLegend-mark {
-  display: none;
 }

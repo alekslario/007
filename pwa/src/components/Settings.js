@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mantine/core";
 import { firstLetterUppercase } from "../utils/utils";
 import { setPreferences } from "../utils/store";
-import { darkTheme } from "../global"; // Assuming you have a GlobalStyles module
+import { darkTheme, lightTheme } from "../global"; // Assuming you have a GlobalStyles module
 
-const ClickAble = ({ text, handleClick, active, last, first }) => {
+const ClickAble = ({ text, handleClick, active, last, first, theme }) => {
   return (
     <Button
       style={{
@@ -17,10 +17,10 @@ const ClickAble = ({ text, handleClick, active, last, first }) => {
         borderRadius: 0,
         ...(active === text
           ? {
-              backgroundColor: darkTheme.active,
+              backgroundColor: theme.active,
             }
           : {
-              backgroundColor: darkTheme.backgroundColor,
+              backgroundColor: theme.backgroundColor,
             }),
 
         ...(first
@@ -37,10 +37,10 @@ const ClickAble = ({ text, handleClick, active, last, first }) => {
           fontFamily: "Roboto-Regular",
           ...(active === text
             ? {
-                color: darkTheme.backgroundColor,
+                color: theme.backgroundColor,
               }
             : {
-                color: darkTheme.seconDaryText,
+                color: theme.seconDaryText,
               }),
         }}
       >
@@ -50,7 +50,7 @@ const ClickAble = ({ text, handleClick, active, last, first }) => {
   );
 };
 
-const StackedSettings = ({ data }) => {
+const StackedSettings = ({ data, theme }) => {
   const dispatch = useDispatch();
   return (
     <div style={styles.preferences}>
@@ -64,23 +64,31 @@ const StackedSettings = ({ data }) => {
                 flexDirection: "column",
                 padding: 13,
 
-                backgroundColor: darkTheme.secondaryBackgroundColor,
+                backgroundColor: theme.secondaryBackgroundColor,
                 marginBottom: 1,
                 ...(index === 0
                   ? {
-                      borderTopLeftRadius: darkTheme.borderRadius,
-                      borderTopRightRadius: darkTheme.borderRadius,
+                      borderTopLeftRadius: theme.borderRadius,
+                      borderTopRightRadius: theme.borderRadius,
                     }
                   : {}),
                 ...(index === Object.keys(data).length - 1
                   ? {
-                      borderBottomLeftRadius: darkTheme.borderRadius,
-                      borderBottomRightRadius: darkTheme.borderRadius,
+                      borderBottomLeftRadius: theme.borderRadius,
+                      borderBottomRightRadius: theme.borderRadius,
                     }
                   : {}),
               }}
             >
-              <span style={styles.header}>{firstLetterUppercase(key)}</span>
+              <span
+                style={{
+                  color: theme.mainText,
+                  marginBottom: "10px",
+                  fontFamily: "Roboto-Regular",
+                }}
+              >
+                {firstLetterUppercase(key)}
+              </span>
               <div
                 style={{
                   display: "flex",
@@ -105,6 +113,7 @@ const StackedSettings = ({ data }) => {
                     active={selected}
                     first={index === 0}
                     last={index === options.length - 1}
+                    theme={theme}
                   />
                 ))}
               </div>
@@ -119,12 +128,13 @@ const StackedSettings = ({ data }) => {
 export default function Settings({ navigation }) {
   const preferences = useSelector((state) => state.preferences);
   const { theme: uiTheme, ...rest } = preferences;
+  const theme = uiTheme.selected === "dark" ? darkTheme : lightTheme;
   return (
     <div style={styles.scrollView}>
       <h1
         style={{
           marginTop: 20,
-          color: darkTheme.secondaryText,
+          color: theme.secondaryText,
           fontSize: 18,
           marginBottom: 20,
           fontFamily: "Roboto-Bold",
@@ -132,11 +142,11 @@ export default function Settings({ navigation }) {
       >
         PREFERENCES
       </h1>
-      <StackedSettings data={{ ...rest }} />
+      <StackedSettings data={{ ...rest }} theme={theme} />
       <h1
         style={{
           marginTop: 20,
-          color: darkTheme.secondaryText,
+          color: theme.secondaryText,
           fontSize: 18,
           marginBottom: 20,
           fontFamily: "Roboto-Bold",
@@ -144,7 +154,7 @@ export default function Settings({ navigation }) {
       >
         APPEARANCE
       </h1>
-      <StackedSettings data={{ theme: uiTheme }} />
+      <StackedSettings data={{ theme: uiTheme }} theme={theme} />
       {/* serves as padding */}
       <div style={{ height: 100 }}></div>
     </div>
@@ -166,9 +176,4 @@ const styles = {
     justifyContent: "space-between",
   },
   preferenceName: {},
-  header: {
-    color: darkTheme.mainText,
-    marginBottom: "10px",
-    fontFamily: "Roboto-Regular",
-  },
 };

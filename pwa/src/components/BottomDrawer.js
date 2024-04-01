@@ -15,7 +15,7 @@ import {
   IonButtons,
   IonSearchbar,
 } from "@ionic/react";
-import { darkTheme } from "../global";
+import { darkTheme, lightTheme } from "../global";
 import { useGetLatLon } from "../hooks/useGetLatLon";
 import { useDispatch, useSelector } from "react-redux";
 import { addLocation, removeLocation } from "../utils/store";
@@ -25,7 +25,11 @@ export const BottomDrawer = ({ show }) => {
   const modal = useRef(null);
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
-  const { options } = useSelector((state) => state.location);
+  const [{ options }, preferences] = useSelector((state) => [
+    state.location,
+    state.preferences,
+  ]);
+  const theme = preferences.theme.selected === "dark" ? darkTheme : lightTheme;
   useEffect(() => {
     if (!document) return;
     const setState = (e) => {
@@ -36,11 +40,11 @@ export const BottomDrawer = ({ show }) => {
     return () => document.removeEventListener("ionInput", setState);
   }, []);
   const matchedLocations = useGetLatLon(value);
-  console.log(matchedLocations);
+
   return (
     <IonModal
       style={{
-        "--ion-background-color": darkTheme.secondaryBackgroundColor,
+        "--ion-background-color": theme.secondaryBackgroundColor,
       }}
       ref={modal}
       initialBreakpoint={0.65}
@@ -52,7 +56,7 @@ export const BottomDrawer = ({ show }) => {
         <IonToolbar
           style={{
             position: "sticky",
-            "--background": darkTheme.secondaryBackgroundColor,
+            "--background": theme.secondaryBackgroundColor,
           }}
         >
           <IonButtons slot="end">
@@ -63,10 +67,10 @@ export const BottomDrawer = ({ show }) => {
         </IonToolbar>
         <IonSearchbar
           style={{
-            "--background": darkTheme.card,
-            "--color": darkTheme.mainText,
-            "--icon-color": darkTheme.active,
-            "--clear-button-color": darkTheme.active,
+            "--background": theme.card,
+            "--color": theme.mainText,
+            "--icon-color": theme.active,
+            "--clear-button-color": theme.active,
             "--border-radius": "10px",
           }}
           placeholder="Search"
@@ -84,7 +88,7 @@ export const BottomDrawer = ({ show }) => {
               <IonItem
                 key={index}
                 style={{
-                  "--color": darkTheme.mainText,
+                  "--color": theme.mainText,
                 }}
               >
                 <IonLabel
@@ -111,7 +115,7 @@ export const BottomDrawer = ({ show }) => {
               {options.length > 0 && (
                 <p
                   style={{
-                    color: darkTheme.mainText,
+                    color: theme.mainText,
                   }}
                 >
                   Your saved locations
@@ -127,7 +131,7 @@ export const BottomDrawer = ({ show }) => {
                         modal.current?.dismiss();
                       }}
                       style={{
-                        "--color": darkTheme.mainText,
+                        "--color": theme.mainText,
                       }}
                     >
                       <IonLabel>

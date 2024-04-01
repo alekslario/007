@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 // Remove React Native specific imports
 import { formatDate, getTime, toFahrenheit } from "../utils/utils";
-import { darkTheme } from "../global";
+import { darkTheme, lightTheme } from "../global";
 import styled from "@emotion/styled";
 import EmblaCarousel from "./EmblaCarousel";
 import { Row } from "./Flex";
@@ -21,7 +21,7 @@ export const MainInfo = () => {
       preferences: state.preferences,
     };
   });
-
+  const theme = preferences.theme.selected === "dark" ? darkTheme : lightTheme;
   const weather = currentTemperature;
   const [date, hours] = formatDate(currentTime);
 
@@ -30,7 +30,7 @@ export const MainInfo = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        color: darkTheme.mainText,
+        color: theme.mainText,
         padding: "20px",
 
         // minHeight: window.innerHeight * 0.8,
@@ -54,7 +54,7 @@ export const MainInfo = () => {
               borderRadius: "50%",
               margin: "0 3px",
               backgroundColor:
-                index === selectedIndex ? darkTheme.active : darkTheme.mainText,
+                index === selectedIndex ? theme.active : theme.mainText,
             }}
           ></div>
         ))}

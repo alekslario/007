@@ -44,15 +44,27 @@ body {
 .mapboxgl-ctrl-bottom-left {
   bottom: 40% !important;
   width: 106% !important;
-  display: flex;
+  /* display: flex; */
   justify-content: flex-end;
+  display: none;
 }
 .mapboxgl-ctrl-logo {
   transform: rotate(-90deg);
 }
 .mapboxgl-ctrl-bottom-right {
   bottom: 55% !important;
+  display: none;
 }
+.mapboxgl-compact {
+  width: min-content;
+}
+/* .mapboxgl-ctrl-attrib-button{
+  display:block !important;
+}
+.mapboxgl-ctrl-attrib-inner{
+  display:block !important;
+
+} */
 
 .tint0 {
   background: linear-gradient(360deg, #dfdfdfff 0%, #9bea8fff 100%);

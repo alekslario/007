@@ -45,19 +45,20 @@ export const MainInfo = () => {
           margin: "6px",
         }}
       >
-        {Array.from({ length: options.length + 1 }).map((_, index) => (
-          <div
-            key={index}
-            style={{
-              width: "12px",
-              height: "12px",
-              borderRadius: "50%",
-              margin: "0 3px",
-              backgroundColor:
-                index === selectedIndex ? theme.active : theme.mainText,
-            }}
-          ></div>
-        ))}
+        {options.length > 0 &&
+          Array.from({ length: options.length + 1 }).map((_, index) => (
+            <div
+              key={index}
+              style={{
+                width: "12px",
+                height: "12px",
+                borderRadius: "50%",
+                margin: "0 3px",
+                backgroundColor:
+                  index === selectedIndex ? theme.active : theme.mainText,
+              }}
+            ></div>
+          ))}
       </div>
 
       <div
@@ -69,13 +70,18 @@ export const MainInfo = () => {
           margin: "6px",
         }}
       >
-        <ActionIcon>
-          <IconCaretLeft />
-        </ActionIcon>
+        {options.length > 0 && (
+          <ActionIcon>
+            <IconCaretLeft />
+          </ActionIcon>
+        )}
+
         <EmblaCarousel />
-        <ActionIcon>
-          <IconCaretRight />
-        </ActionIcon>
+        {options.length > 0 && (
+          <ActionIcon>
+            <IconCaretRight />
+          </ActionIcon>
+        )}
       </div>
 
       <Row>

@@ -8,6 +8,7 @@ import EmblaCarousel from "./EmblaCarousel";
 import { Row } from "./Flex";
 import { ActionIcon } from "@mantine/core";
 import { IconCaretLeft, IconCaretRight } from "@tabler/icons-react";
+import { SwipeIndicator } from "./SwipeIndicator";
 
 export const MainInfo = () => {
   const {
@@ -50,8 +51,8 @@ export const MainInfo = () => {
             <div
               key={index}
               style={{
-                width: "12px",
-                height: "12px",
+                width: "8px",
+                height: "8px",
                 borderRadius: "50%",
                 margin: "0 3px",
                 backgroundColor:
@@ -64,24 +65,24 @@ export const MainInfo = () => {
       <div
         style={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           margin: "6px",
         }}
       >
-        {options.length > 0 && (
+        {/* {options.length > 0 && (
           <ActionIcon>
             <IconCaretLeft />
           </ActionIcon>
-        )}
-
+        )} */}
+        {options.length > 0 && <SwipeIndicator />}
         <EmblaCarousel />
-        {options.length > 0 && (
+        {/* {options.length > 0 && (
           <ActionIcon>
             <IconCaretRight />
           </ActionIcon>
-        )}
+        )} */}
       </div>
 
       <Row>

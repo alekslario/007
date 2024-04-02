@@ -1,8 +1,10 @@
 import React from "react";
 import { Arrow } from "../svg/Arrow";
 import styled from "@emotion/styled";
+import { useSelector } from "react-redux";
+import { darkTheme, lightTheme } from "../global";
+
 const Wave = styled.div`
-  margin-left: 10px;
   .wave-item {
     animation: waveOpacity 2s ease infinite alternate;
   }
@@ -37,6 +39,11 @@ const Wave = styled.div`
   }
 `;
 export const SwipeIndicator = () => {
+  const preferences = useSelector((state) => state.preferences);
+  const fill =
+    preferences.theme.selected === "dark"
+      ? darkTheme.secondaryText
+      : lightTheme.secondaryText;
   return (
     <div
       className="row"
@@ -54,14 +61,22 @@ export const SwipeIndicator = () => {
       >
         {[0, 0, 0].map((_, index) => {
           return (
-            <Arrow key={index} className={`wave-item wave-item${index}`} />
+            <Arrow
+              key={index}
+              className={`wave-item wave-item${index}`}
+              fill={fill}
+            />
           );
         })}
       </Wave>
-      <Wave className="row">
+      <Wave className="row" style={{ marginLeft: "10px" }}>
         {[0, 0, 0].map((_, index) => {
           return (
-            <Arrow key={index} className={`wave-item wave-item${index}`} />
+            <Arrow
+              key={index}
+              className={`wave-item wave-item${index}`}
+              fill={fill}
+            />
           );
         })}
       </Wave>

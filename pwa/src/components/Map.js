@@ -14,6 +14,7 @@ import {
 import { useHistory } from "react-router-dom";
 import ColorLegend from "./ColorLegend";
 import BottomDrawer from "./BottomDrawer";
+import { MapBoxAttribution } from "./MapBoxAttribution";
 const layers = [
   "precipitation_new",
   "clouds_new",
@@ -322,6 +323,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
         className="map-container"
         style={{ height: "100%" }}
       />
+      <MapBoxAttribution />
       <Slider
         time={time}
         overlays={maps}

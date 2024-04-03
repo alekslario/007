@@ -50,6 +50,10 @@ const SliderContainer = styled.div`
   .mantine-Slider-root {
     width: 70%;
   }
+  .mantine-Slider-label {
+    background-color: ${({ theme }) => theme.backgroundColor};
+    color: ${({ theme }) => theme.mainText};
+  }
 `;
 const SliderWrapper = styled.div`
   position: absolute;

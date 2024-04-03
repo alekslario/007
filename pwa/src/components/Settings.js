@@ -40,7 +40,7 @@ const ClickAble = ({ text, handleClick, active, last, first, theme }) => {
                 color: theme.backgroundColor,
               }
             : {
-                color: theme.seconDaryText,
+                color: theme.secondaryText,
               }),
         }}
       >

@@ -11,7 +11,7 @@ declare var GlobalStyles: {
         backgroundColor: String;
         active: String;
         mainText: String;
-        seconDaryText: String;
+        secondaryText: String;
         disabledText: String;
         card: String;
 
@@ -21,7 +21,7 @@ declare var GlobalStyles: {
         backgroundColor: String;
         active: String;
         mainText: String;
-        seconDaryText: String;
+        secondaryText: String;
         disabledText: String;
         card: String;
 

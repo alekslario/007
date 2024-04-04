@@ -17,7 +17,8 @@ const EmblaCarousel = () => {
   const logSlidesInView = () => {
     if (emblaApi) {
       const slides = emblaApi.slidesInView();
-      if (slides[0] && slides[0] !== selectedIndex) {
+
+      if (slides.length && slides[0] !== selectedIndex) {
         dispatch(selectSlide(slides[0]));
       }
     }

@@ -23,7 +23,7 @@ const ColorMeterWrapper = styled.div`
   border-radius: 15px;
   border: 1px transparent solid;
   overflow: hidden;
-  width: 20px;
+  width: 10px;
   border-radius: 15px;
   margin: 10px;
 `;
@@ -40,7 +40,7 @@ const ColorLegendWrapper = styled.div`
   transition: width 0.5s ease-in-out;
   overflow: hidden;
   height: fit-content;
-  padding-top: 5px;
+  padding-top: 4px;
 `;
 const ColorMeter = () => {
   return (
@@ -50,7 +50,7 @@ const ColorMeter = () => {
           key={i}
           className={`tint${9 - i} tint`}
           style={{
-            width: "20px",
+            width: "10px",
             height: "20px",
           }}
         ></div>
@@ -64,7 +64,7 @@ const Text = styled.div`
 `;
 const SubText = styled.div`
   font-size: 12px;
-  color: ${({ theme }) => theme.seconDaryText};
+  color: ${({ theme }) => theme.secondaryText};
 `;
 
 const texts = [
@@ -118,7 +118,7 @@ export const ColorLegend = () => {
   const [show, setShow] = useState(false);
   return (
     <ColorLegendWrapper
-      style={{ width: show ? "200px" : "40px" }}
+      style={{ width: show ? "200px" : "30px" }}
       theme={theme}
     >
       <Col>
@@ -128,7 +128,9 @@ export const ColorLegend = () => {
         </Row>
         <ActionIcon
           style={{
-            margin: "6px",
+            margin: "2px",
+            marginTop: "-3px",
+            padding: "2px",
           }}
           onClick={() => {
             setShow((prev) => !prev);

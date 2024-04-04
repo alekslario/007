@@ -13,15 +13,15 @@ export const MapBoxAttribution = () => {
         height: "100px",
       }}
     >
-      <div class="mapboxgl-ctrl mapboxgl-ctrl-attrib mapboxgl-compact">
-        <button type="button" class="mapboxgl-ctrl-attrib-button">
+      <div className="mapboxgl-ctrl mapboxgl-ctrl-attrib mapboxgl-compact">
+        <button type="button" className="mapboxgl-ctrl-attrib-button">
           <span
-            class="mapboxgl-ctrl-icon"
+            className="mapboxgl-ctrl-icon"
             aria-hidden="true"
             title="Toggle attribution"
           ></span>
         </button>
-        <div class="mapboxgl-ctrl-attrib-inner">
+        <div className="mapboxgl-ctrl-attrib-inner">
           <a
             href="https://www.mapbox.com/about/maps/"
             target="_blank"
@@ -39,7 +39,7 @@ export const MapBoxAttribution = () => {
             © OpenStreetMap
           </a>{" "}
           <a
-            class="mapbox-improve-map"
+            className="mapbox-improve-map"
             href="https://apps.mapbox.com/feedback/?owner=mapbox&amp;id=dark-v11&amp;access_token=pk.eyJ1IjoiYWxla3NsYXJpbyIsImEiOiJjbHU3bjk2MDIwNjI4MmlzMmMwZjBudWxlIn0.10Qwz-N6JActX3TrYaMLMw#/15.48/43.43/4.61"
             target="_blank"
             aria-label="Improve this map"
@@ -50,7 +50,7 @@ export const MapBoxAttribution = () => {
         </div>
       </div>
       <a
-        class="mapboxgl-ctrl-logo"
+        className="mapboxgl-ctrl-logo"
         target="_blank"
         rel="noopener nofollow"
         href="https://www.mapbox.com/"

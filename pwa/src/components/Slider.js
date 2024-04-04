@@ -50,6 +50,10 @@ const SliderContainer = styled.div`
   .mantine-Slider-root {
     width: 70%;
   }
+  .mantine-Slider-label {
+    background-color: ${({ theme }) => theme.backgroundColor};
+    color: ${({ theme }) => theme.mainText};
+  }
 `;
 const SliderWrapper = styled.div`
   position: absolute;
@@ -61,7 +65,7 @@ const SliderWrapper = styled.div`
   align-items: center;
   background-color: ${({ theme }) => theme.card};
 
-  border-radius: 10px;
+  border-radius: 15px;
   padding: 5px 5px 5px 6px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 `;

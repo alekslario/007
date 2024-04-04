@@ -6,7 +6,7 @@ export const lightTheme = {
   mainText: "#333333",
   secondaryText: "#666666",
   disabledText: "#999999",
-  borderRadius: 6,
+  borderRadius: 10,
   borderColor: "#cccccc",
 };
 

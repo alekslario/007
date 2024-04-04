@@ -11,6 +11,7 @@ export const ActionButton = styled(ActionIcon)`
   width: 40px;
   height: 40px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
   /* border-radius: 50%; */
   svg {
     fill: ${({ theme }) => theme.active};

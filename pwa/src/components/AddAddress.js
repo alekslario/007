@@ -12,16 +12,13 @@ const Wrapper = styled.div`
 export const AddAddress = () => {
   const [preferences] = useSelector((state) => [state.preferences]);
   const theme = preferences.theme.selected === "dark" ? darkTheme : lightTheme;
-  const [state, setState] = useState("");
+
   return (
     <Wrapper>
       <IonSearchbar
         style={{
           "--background": theme.card,
           color: `${theme.primaryText} !important`,
-        }}
-        onClick={() => {
-          console.log("clicked");
         }}
         placeholder="Search"
       ></IonSearchbar>

@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import useEmblaCarousel from 'embla-carousel-react';
-import { selectSlide } from '../utils/store';
+import React, { useCallback, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import useEmblaCarousel from "embla-carousel-react";
+import { selectSlide } from "../utils/store";
 
 const EmblaCarousel = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
@@ -17,14 +17,22 @@ const EmblaCarousel = () => {
   const logSlidesInView = () => {
     if (emblaApi) {
       const slides = emblaApi.slidesInView();
-      if (slides.length === 1 && slides[0] !== selectedIndex) {
+
+      if (slides.length && slides[0] !== selectedIndex) {
         dispatch(selectSlide(slides[0]));
       }
     }
   };
 
+  // useEffect(() => {
+  //   if (emblaApi) {
+  //     console.log("scrollling to ", options.length);
+  //     emblaApi.scrollTo(options.length);
+  //   }
+  // }, [options.length]);
+
   useEffect(() => {
-    if (emblaApi) emblaApi.on('slidesInView', logSlidesInView);
+    if (emblaApi) emblaApi.on("slidesInView", logSlidesInView);
   }, [emblaApi, logSlidesInView]);
   return (
     <section className="embla">

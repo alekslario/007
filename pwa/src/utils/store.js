@@ -84,10 +84,13 @@ export const locationSlice = createSlice({
       return { ...state, options: [...state.options, action.payload] };
     },
     removeLocation: (state, action) => {
+      const newOptions = state.options.filter(
+        (location) => location.name !== action.payload
+      );
       return {
         ...state,
         selectedIndex: 0,
-        current: action.payload,
+        options: newOptions,
       };
     },
     addCurrentLocation: (state, action) => {

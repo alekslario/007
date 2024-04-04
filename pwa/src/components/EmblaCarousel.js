@@ -24,6 +24,13 @@ const EmblaCarousel = () => {
     }
   };
 
+  // useEffect(() => {
+  //   if (emblaApi) {
+  //     console.log("scrollling to ", options.length);
+  //     emblaApi.scrollTo(options.length);
+  //   }
+  // }, [options.length]);
+
   useEffect(() => {
     if (emblaApi) emblaApi.on("slidesInView", logSlidesInView);
   }, [emblaApi, logSlidesInView]);

@@ -19,6 +19,6 @@ export const useGetAddress = ({ lon, lat }) => {
         console.log("error", error);
       });
   }, [lon, lat]);
-
-  return state ? state.results[0].formatted_address : null;
+  console.log("state", state?.results);
+  return state ? state.results[0].formatted_address?.split(",")[0] : null;
 };

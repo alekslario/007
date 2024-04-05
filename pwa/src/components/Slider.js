@@ -56,6 +56,7 @@ const SliderContainer = styled.div`
   }
 `;
 const SliderWrapper = styled.div`
+  z-index: 10;
   position: absolute;
   top: -64px;
   width: 200px;

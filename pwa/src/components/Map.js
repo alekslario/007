@@ -27,6 +27,17 @@ const MapWrapper = styled.div`
   position: relative;
   height: 65vh;
   min-height: 65vh;
+  .gradient-overlay {
+    height: 80px;
+    width: 100%;
+    background: linear-gradient(
+      0deg,
+      ${({ theme }) => theme.backgroundColor},
+      transparent
+    );
+    position: absolute;
+    bottom: 0px;
+  }
 `;
 
 export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
@@ -106,10 +117,6 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
         },
       });
     }
-
-    // if (map.current.getLayer("points")) {
-    //   map.current.removeLayer("points");
-    // }
 
     // Add a layer to use the image to represent the data.
     if (!map.current.getLayer("points")) {
@@ -300,24 +307,8 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     });
   };
 
-  // // hook to if scrolled
-  // const [scrolled, setScrolled] = useState(false);
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (window.scrollY > 0) {
-  //       setScrolled(true);
-  //     } else {
-  //       setScrolled(false);
-  //     }
-  //   };
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
-
   return (
-    <MapWrapper>
+    <MapWrapper theme={theme}>
       <div
         ref={mapContainer}
         className="map-container"
@@ -364,6 +355,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
         <IconPlus />
       </ActionButton>
       <ColorLegend />
+      <div className="gradient-overlay"></div>
     </MapWrapper>
   );
 }

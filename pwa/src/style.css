@@ -134,6 +134,7 @@ ion-modal ion-backdrop {
 }
 .embla__viewport {
   overflow: hidden;
+  max-width: 80vw;
 }
 .embla__container {
   backface-visibility: hidden;

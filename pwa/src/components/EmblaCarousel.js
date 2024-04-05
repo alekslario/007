@@ -24,12 +24,19 @@ const EmblaCarousel = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (emblaApi) {
-  //     console.log("scrollling to ", options.length);
-  //     emblaApi.scrollTo(options.length);
-  //   }
-  // }, [options.length]);
+  useEffect(() => {
+    let handle = null;
+    if (emblaApi) {
+      setTimeout(() => {
+        emblaApi.scrollTo(options.length);
+      }, 300);
+    }
+    return () => {
+      if (handle) {
+        clearTimeout(handle);
+      }
+    };
+  }, [options.length]);
 
   useEffect(() => {
     if (emblaApi) emblaApi.on("slidesInView", logSlidesInView);

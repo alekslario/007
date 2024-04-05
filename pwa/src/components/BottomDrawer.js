@@ -83,7 +83,22 @@ export const BottomDrawer = ({ show }) => {
           }}
         >
           {matchedLocations.map((location, index) => {
-            const { latitude, longitude, admin1, name } = location;
+            console.log("location", location);
+            const {
+              latitude,
+              longitude,
+              admin1 = "",
+              name,
+              country = "",
+            } = location;
+            //remove duplicates when admin1 === name
+            const [locationName, ...rest] = Array.from(
+              new Set([name, admin1, country])
+            );
+            const countryString = rest.filter((x) => x).join(", ");
+            const locationString = [locationName, countryString]
+              .filter((s) => s)
+              .join(", ");
             return (
               <IonItem
                 key={index}
@@ -97,15 +112,15 @@ export const BottomDrawer = ({ show }) => {
                       addLocation({
                         lat: latitude,
                         lon: longitude,
-                        name: `${name}, ${admin1}`,
+                        name: locationString,
                       })
                     );
                     setValue("");
                     modal.current?.dismiss();
                   }}
                 >
-                  <h2>{name}</h2>
-                  <p>{admin1}</p>
+                  <h2>{locationName}</h2>
+                  <p>{countryString}</p>
                 </IonLabel>
               </IonItem>
             );

@@ -17,11 +17,17 @@ export const ActionButton = styled(ActionIcon)`
     fill: ${({ theme }) => theme.active};
   }
   svg path {
-    stroke: ${({ theme }) => theme.active};
-    fill: ${({ theme }) => theme.active};
+    stroke: ${({ theme, disabled }) =>
+      disabled ? theme.backgroundColor : theme.active};
+    fill: ${({ theme, disabled }) =>
+      disabled ? theme.backgroundColor : theme.active};
   }
   &:active {
     background-color: ${({ theme }) => theme.card};
+  }
+  &:disabled {
+    background-color: ${({ theme }) => theme.card};
+    border: initial;
   }
 `;
 

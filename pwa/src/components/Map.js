@@ -53,6 +53,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
   const [maps, setMaps] = useState([]);
   const [count, setCount] = useState(10);
   const [play, setPlay] = useState(false);
+  const [blocked, setBlocked] = useState(true);
   const [time, setTime] = useState(0);
   const [source, addSource] = useState({
     clouds_new: 0,
@@ -64,6 +65,15 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
   const [loaded, setLoaded] = useState(false);
   const mapContainer = useRef(null);
   const map = useRef(null);
+
+  // start animation
+  useEffect(() => {
+    if (!map.current || !loaded) return;
+    setTimeout(() => {
+      setPlay(true);
+      setBlocked(false);
+    }, 4000);
+  }, [loaded]);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -215,11 +225,46 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     };
   }, [play, maps.length, loaded, time]);
 
+  //reverse timer once the end is reached
+  // useEffect(() => {
+  //   if (!loaded || maps.length === 0 || !play) return;
+  //   let handle = null;
+  //   let i2 = null;
+  //   maps.forEach((frame, index) => {
+  //     map.current.setLayoutProperty(
+  //       `rainviewer_${frame.path}`,
+  //       "visibility",
+  //       index === time || index === time - 1 ? "visible" : "none"
+  //     );
+  //   });
+  //   if (time - 1 >= 0) {
+  //     const frame = maps[time - 1];
+  //     let opacity = 1;
+  //     handle = setTimeout(() => {
+  //       i2 = setInterval(() => {
+  //         if (opacity <= 0) {
+  //           return clearInterval(i2);
+  //         }
+  //         map.current.setPaintProperty(
+  //           `rainviewer_${frame.path}`,
+  //           "raster-opacity",
+  //           opacity
+  //         );
+  //         opacity -= 0.1;
+  //       }, 50);
+  //     }, 400);
+  //   }
+  //   return () => {
+  //     if (handle) clearTimeout(handle);
+  //     if (i2) clearInterval(i2);
+  //   };
+  // }, [play, maps.length, loaded, time]);
+
   useEffect(() => {
     if (!loaded || maps.length === 0 || !play) return;
     const interval = setInterval(() => {
       setTime((count) => (count + 1) % maps.length);
-    }, 1000);
+    }, 700);
     return () => clearInterval(interval);
   }, [maps.length, play, loaded]);
 
@@ -323,8 +368,9 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
         onClick={() => {
           setPlay(!play);
         }}
+        disabled={blocked}
       />
-      <ActionButton onClick={goToStart} theme={theme}>
+      <ActionButton onClick={goToStart} theme={theme} disabled={blocked}>
         <IconLocationFilled size={20} stroke={theme.active} />
       </ActionButton>
 

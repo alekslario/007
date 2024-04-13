@@ -32,7 +32,7 @@ export const MainInfo = () => {
         display: "flex",
         flexDirection: "column",
         color: theme.mainText,
-        padding: "20px",
+        padding: "0px 20px 20px 20px",
 
         // minHeight: window.innerHeight * 0.8,
       }}
@@ -97,14 +97,14 @@ export const MainInfo = () => {
             {preferences.temperatureUnit.selected}
           </div>
         </div>
-        <div style={styles.dateContainer}>
+        {/* <div style={styles.dateContainer}>
           <div style={{ ...styles.dateContainer, ...styles.date }}>{date}</div>
           &nbsp;
           <div style={styles.date}>{`${getTime(
             Date.now(),
             preferences.timeFormat.selected
           )}`}</div>
-        </div>
+        </div> */}
       </Row>
     </div>
   );
@@ -116,7 +116,7 @@ const styles = {
 
     alignItems: "center",
 
-    justifyContent: "left",
+    justifyContent: "center",
     flexDirection: "row",
 
     width: "100%",

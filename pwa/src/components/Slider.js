@@ -19,6 +19,12 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  .play-icons path {
+    stroke: ${({ theme, disabled }) =>
+      disabled ? theme.backgroundColor : theme.active};
+    fill: ${({ theme, disabled }) =>
+      disabled ? theme.backgroundColor : theme.active};
+  }
 `;
 
 const SliderContainer = styled.div`

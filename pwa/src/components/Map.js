@@ -72,7 +72,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     setTimeout(() => {
       setPlay(true);
       setBlocked(false);
-    }, 4000);
+    }, 5000);
   }, [loaded]);
 
   useEffect(() => {

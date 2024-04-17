@@ -234,10 +234,11 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
   useEffect(() => {
     if (!loaded || maps.length === 0 || !play || reverse) return;
     const interval = setInterval(() => {
-      setTime(({ time, reverse }) => {
+      setTime((p) => {
+        const { time, reverse, cycles } = p;
         return time === maps.length
-          ? { time: time - 1, reverse: true }
-          : { time: time + 1, reverse };
+          ? { time: time - 1, reverse: true, cycles: cycles + 1 }
+          : { time: time + 1, reverse, cycles };
       });
       // launch reverse timer
     }, 700);
@@ -248,15 +249,30 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
   useEffect(() => {
     if (!loaded || maps.length === 0 || !play || !reverse) return;
     const interval = setInterval(() => {
-      setTime(({ time, reverse }) => {
+      setTime(({ time, reverse, ...rest }) => {
         return time === 0
-          ? { time: time + 1, reverse: false }
-          : { time: time - 1, reverse };
+          ? { time: time + 1, reverse: false, ...rest }
+          : { time: time - 1, reverse, ...rest };
       });
       // launch reverse timer
     }, 50);
     return () => clearInterval(interval);
   }, [maps.length, play, loaded, reverse]);
+
+  //pause animation every 5 cycles
+
+  useEffect(() => {
+    if (
+      !loaded ||
+      maps.length === 0 ||
+      !play ||
+      cycles === 0 ||
+      cycles % 5 !== 0
+    )
+      return;
+    setTime((prev) => ({ ...prev, time: 0, reverse: false }));
+    setPlay(false);
+  }, [cycles]);
 
   //
   useEffect(() => {

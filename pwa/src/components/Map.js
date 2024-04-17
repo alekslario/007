@@ -51,10 +51,14 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
   const history = useHistory();
   const [selectedLayer, setSelectedLayer] = useState(0);
   const [maps, setMaps] = useState([]);
-  const [count, setCount] = useState(10);
+
   const [play, setPlay] = useState(false);
   const [blocked, setBlocked] = useState(true);
-  const [time, setTime] = useState(0);
+  const [{ time, reverse, cycles }, setTime] = useState({
+    time: 0,
+    reverse: false,
+    cycles: 0,
+  });
   const [source, addSource] = useState({
     clouds_new: 0,
     precipitation_new: 0,
@@ -216,8 +220,9 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
             opacity
           );
           opacity -= 0.1;
-        }, 50);
-      }, 400);
+          //speed up the animation in reverse
+        }, 80);
+      }, 500);
     }
     return () => {
       if (handle) clearTimeout(handle);
@@ -225,49 +230,35 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     };
   }, [play, maps.length, loaded, time]);
 
-  //reverse timer once the end is reached
-  // useEffect(() => {
-  //   if (!loaded || maps.length === 0 || !play) return;
-  //   let handle = null;
-  //   let i2 = null;
-  //   maps.forEach((frame, index) => {
-  //     map.current.setLayoutProperty(
-  //       `rainviewer_${frame.path}`,
-  //       "visibility",
-  //       index === time || index === time - 1 ? "visible" : "none"
-  //     );
-  //   });
-  //   if (time - 1 >= 0) {
-  //     const frame = maps[time - 1];
-  //     let opacity = 1;
-  //     handle = setTimeout(() => {
-  //       i2 = setInterval(() => {
-  //         if (opacity <= 0) {
-  //           return clearInterval(i2);
-  //         }
-  //         map.current.setPaintProperty(
-  //           `rainviewer_${frame.path}`,
-  //           "raster-opacity",
-  //           opacity
-  //         );
-  //         opacity -= 0.1;
-  //       }, 50);
-  //     }, 400);
-  //   }
-  //   return () => {
-  //     if (handle) clearTimeout(handle);
-  //     if (i2) clearInterval(i2);
-  //   };
-  // }, [play, maps.length, loaded, time]);
-
+  //timer - forward timer
   useEffect(() => {
-    if (!loaded || maps.length === 0 || !play) return;
+    if (!loaded || maps.length === 0 || !play || reverse) return;
     const interval = setInterval(() => {
-      setTime((count) => (count + 1) % maps.length);
+      setTime(({ time, reverse }) => {
+        return time === maps.length
+          ? { time: time - 1, reverse: true }
+          : { time: time + 1, reverse };
+      });
+      // launch reverse timer
     }, 700);
     return () => clearInterval(interval);
-  }, [maps.length, play, loaded]);
+  }, [maps.length, play, loaded, reverse]);
 
+  //sped up reverse timer
+  useEffect(() => {
+    if (!loaded || maps.length === 0 || !play || !reverse) return;
+    const interval = setInterval(() => {
+      setTime(({ time, reverse }) => {
+        return time === 0
+          ? { time: time + 1, reverse: false }
+          : { time: time - 1, reverse };
+      });
+      // launch reverse timer
+    }, 50);
+    return () => clearInterval(interval);
+  }, [maps.length, play, loaded, reverse]);
+
+  //
   useEffect(() => {
     if (!loaded || maps.length === 0 || !play || time > 0) return;
     maps.forEach((frame, index) => {
@@ -284,6 +275,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     });
   }, [maps.length, play, loaded, time]);
 
+  // get weather maps || todo cache the maps
   useEffect(() => {
     const getWeatherMaps = async () => {
       const response = await fetch(
@@ -297,6 +289,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     getWeatherMaps();
   }, []);
 
+  // flying to new location on swipe or loading of the map
   useEffect(() => {
     if (!loaded) return;
     map.current.flyTo({
@@ -310,17 +303,9 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     });
   }, [loaded, lat, lon]);
 
-  useEffect(() => {
-    if (!loaded || maps.length === 0 || !play) return;
-    const interval = setInterval(() => {
-      setCount((count) => (count + 1) % maps.length);
-    }, 500);
-    return () => clearInterval(interval);
-  }, [maps, play]);
-
+  // set pointer on the map
   useEffect(() => {
     if (!loaded) return;
-
     setPointer();
   }, [loaded]);
 
@@ -334,9 +319,10 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     });
   };
 
+  // reset animation on drag
   const handleDrag = (val) => {
-    setTime(val);
     setPlay(false);
+    setTime((prev) => ({ ...prev, time: val, reverse: false }));
 
     maps.forEach((frame, index) => {
       map.current.setLayoutProperty(

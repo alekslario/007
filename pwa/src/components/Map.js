@@ -51,9 +51,14 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
   const history = useHistory();
   const [selectedLayer, setSelectedLayer] = useState(0);
   const [maps, setMaps] = useState([]);
-  const [count, setCount] = useState(10);
+
   const [play, setPlay] = useState(false);
-  const [time, setTime] = useState(0);
+  const [blocked, setBlocked] = useState(true);
+  const [{ time, reverse, cycles }, setTime] = useState({
+    time: 0,
+    reverse: false,
+    cycles: 0,
+  });
   const [source, addSource] = useState({
     clouds_new: 0,
     precipitation_new: 0,
@@ -64,6 +69,15 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
   const [loaded, setLoaded] = useState(false);
   const mapContainer = useRef(null);
   const map = useRef(null);
+
+  // start animation
+  useEffect(() => {
+    if (!map.current || !loaded) return;
+    setTimeout(() => {
+      setPlay(true);
+      setBlocked(false);
+    }, 5000);
+  }, [loaded]);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -206,8 +220,9 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
             opacity
           );
           opacity -= 0.1;
-        }, 50);
-      }, 400);
+          //speed up the animation in reverse
+        }, 80);
+      }, 500);
     }
     return () => {
       if (handle) clearTimeout(handle);
@@ -215,14 +230,51 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     };
   }, [play, maps.length, loaded, time]);
 
+  //timer - forward timer
   useEffect(() => {
-    if (!loaded || maps.length === 0 || !play) return;
+    if (!loaded || maps.length === 0 || !play || reverse) return;
     const interval = setInterval(() => {
-      setTime((count) => (count + 1) % maps.length);
-    }, 1000);
+      setTime((p) => {
+        const { time, reverse, cycles } = p;
+        return time === maps.length
+          ? { time: time - 1, reverse: true, cycles: cycles + 1 }
+          : { time: time + 1, reverse, cycles };
+      });
+      // launch reverse timer
+    }, 700);
     return () => clearInterval(interval);
-  }, [maps.length, play, loaded]);
+  }, [maps.length, play, loaded, reverse]);
 
+  //sped up reverse timer
+  useEffect(() => {
+    if (!loaded || maps.length === 0 || !play || !reverse) return;
+    const interval = setInterval(() => {
+      setTime(({ time, reverse, ...rest }) => {
+        return time === 0
+          ? { time: time + 1, reverse: false, ...rest }
+          : { time: time - 1, reverse, ...rest };
+      });
+      // launch reverse timer
+    }, 50);
+    return () => clearInterval(interval);
+  }, [maps.length, play, loaded, reverse]);
+
+  //pause animation every 5 cycles
+
+  useEffect(() => {
+    if (
+      !loaded ||
+      maps.length === 0 ||
+      !play ||
+      cycles === 0 ||
+      cycles % 5 !== 0
+    )
+      return;
+    setTime((prev) => ({ ...prev, time: 0, reverse: false }));
+    setPlay(false);
+  }, [cycles]);
+
+  //
   useEffect(() => {
     if (!loaded || maps.length === 0 || !play || time > 0) return;
     maps.forEach((frame, index) => {
@@ -239,6 +291,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     });
   }, [maps.length, play, loaded, time]);
 
+  // get weather maps || todo cache the maps
   useEffect(() => {
     const getWeatherMaps = async () => {
       const response = await fetch(
@@ -252,6 +305,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     getWeatherMaps();
   }, []);
 
+  // flying to new location on swipe or loading of the map
   useEffect(() => {
     if (!loaded) return;
     map.current.flyTo({
@@ -265,17 +319,9 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     });
   }, [loaded, lat, lon]);
 
-  useEffect(() => {
-    if (!loaded || maps.length === 0 || !play) return;
-    const interval = setInterval(() => {
-      setCount((count) => (count + 1) % maps.length);
-    }, 500);
-    return () => clearInterval(interval);
-  }, [maps, play]);
-
+  // set pointer on the map
   useEffect(() => {
     if (!loaded) return;
-
     setPointer();
   }, [loaded]);
 
@@ -289,9 +335,10 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     });
   };
 
+  // reset animation on drag
   const handleDrag = (val) => {
-    setTime(val);
     setPlay(false);
+    setTime((prev) => ({ ...prev, time: val, reverse: false }));
 
     maps.forEach((frame, index) => {
       map.current.setLayoutProperty(
@@ -323,8 +370,9 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
         onClick={() => {
           setPlay(!play);
         }}
+        disabled={blocked}
       />
-      <ActionButton onClick={goToStart} theme={theme}>
+      <ActionButton onClick={goToStart} theme={theme} disabled={blocked}>
         <IconLocationFilled size={20} stroke={theme.active} />
       </ActionButton>
 

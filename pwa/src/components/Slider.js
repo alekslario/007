@@ -19,6 +19,12 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  .play-icons path {
+    stroke: ${({ theme, disabled }) =>
+      disabled ? theme.backgroundColor : theme.active};
+    fill: ${({ theme, disabled }) =>
+      disabled ? theme.backgroundColor : theme.active};
+  }
 `;
 
 const SliderContainer = styled.div`
@@ -28,7 +34,8 @@ const SliderContainer = styled.div`
   justify-content: center;
   align-items: center;
   .mantine-Slider-thumb {
-    background-color: ${({ theme }) => theme.active};
+    background-color: ${({ theme, disabled }) =>
+      disabled ? theme.secondaryBackgroundColor : theme.active};
     border: 6px solid ${({ theme }) => theme.backgroundColor};
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 
@@ -38,15 +45,14 @@ const SliderContainer = styled.div`
     background-color: ${({ theme }) => theme.secondaryBackgroundColor};
   }
   .mantine-Slider-bar {
-    background-color: ${({ theme }) => theme.active};
+    background-color: ${({ theme, disabled }) =>
+      disabled ? theme.secondaryBackgroundColor : theme.active};
     transition: all 0.2s ease-in-out;
   }
   .mantine-m0g192::before {
     background-color: ${({ theme }) => theme.secondaryBackgroundColor};
   }
-  .play-icons path {
-    fill: ${({ theme }) => theme.active};
-  }
+
   .mantine-Slider-root {
     width: 70%;
   }
@@ -89,12 +95,11 @@ export const Slider = ({
     return acc;
   }, {});
   return (
-    <SliderContainer theme={theme}>
+    <SliderContainer theme={theme} disabled={props.disabled}>
       <SliderWrapper theme={theme}>
         <ManSlider
           thumbSize={20}
           label={(val) => {
-            console.log(val, marksMap[val]);
             return marksMap[val];
           }}
           min={1}

@@ -29,6 +29,10 @@ export const ActionButton = styled(ActionIcon)`
     background-color: ${({ theme }) => theme.card};
     border: initial;
   }
+  &:hover {
+    background-color: ${({ theme }) => theme.card};
+    opacity: 0.8;
+  }
 `;
 
 export default ActionButton;

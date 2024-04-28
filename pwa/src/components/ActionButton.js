@@ -33,6 +33,7 @@ export const ActionButton = styled(ActionIcon)`
     background-color: ${({ theme }) => theme.card};
     opacity: 0.8;
   }
+  ${({ customCss }) => customCss}
 `;
 
 export default ActionButton;

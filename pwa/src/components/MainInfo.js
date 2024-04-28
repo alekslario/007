@@ -65,7 +65,7 @@ export const MainInfo = () => {
       <div
         style={{
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
           margin: "6px",
@@ -76,7 +76,7 @@ export const MainInfo = () => {
             <IconCaretLeft />
           </ActionIcon>
         )} */}
-        {options.length > 0 && <SwipeIndicator />}
+        {/* {options.length > 0 && <SwipeIndicator />} */}
         <EmblaCarousel />
         {/* {options.length > 0 && (
           <ActionIcon>

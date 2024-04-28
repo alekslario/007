@@ -126,7 +126,7 @@ ion-modal ion-backdrop {
   font-size: 24px;
 }
 .embla {
-  max-width: 48rem;
+  max-width: 18rem;
   margin: auto;
   --slide-height: 19rem;
   --slide-spacing: 1rem;

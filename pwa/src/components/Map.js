@@ -70,7 +70,7 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
 
-  // start animation
+  // // start animation
   useEffect(() => {
     if (!map.current || !loaded) return;
     setTimeout(() => {
@@ -305,9 +305,20 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
     getWeatherMaps();
   }, []);
 
+  useEffect(() => {
+    if (!loaded) return;
+    map.current.on("moveend", function () {
+      console.log("move end");
+      setPlay(true);
+      setBlocked(false);
+    });
+  }, [loaded]);
+
   // flying to new location on swipe or loading of the map
   useEffect(() => {
     if (!loaded) return;
+    setPlay(false);
+    setBlocked(true);
     map.current.flyTo({
       ...{
         center: [lon, lat],
@@ -327,6 +338,8 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
 
   const goToStart = () => {
     const { lon, lat } = current;
+    setPlay(false);
+    setBlocked(true);
     map.current.flyTo({
       center: [lon, lat],
       zoom: 4,

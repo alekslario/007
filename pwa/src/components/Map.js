@@ -308,7 +308,6 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
   useEffect(() => {
     if (!loaded) return;
     map.current.on("moveend", function () {
-      console.log("move end");
       setPlay(true);
       setBlocked(false);
     });

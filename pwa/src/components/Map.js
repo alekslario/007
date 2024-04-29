@@ -40,7 +40,13 @@ const MapWrapper = styled.div`
   }
 `;
 
-export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
+export default function Map({
+  lat,
+  lon,
+  zoom = 0,
+  setShowInput = () => {},
+  setLoadingScreen = () => {},
+}) {
   const [current, preferences] = useSelector((state) => [
     state.location.current,
     state.preferences,
@@ -77,6 +83,11 @@ export default function Map({ lat, lon, zoom = 0, setShowInput = () => {} }) {
       setPlay(true);
       setBlocked(false);
     }, 5000);
+  }, [loaded]);
+
+  //notify parent when the map is loaded
+  useEffect(() => {
+    setLoadingScreen(loaded);
   }, [loaded]);
 
   useEffect(() => {

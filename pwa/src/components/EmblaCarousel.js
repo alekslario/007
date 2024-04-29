@@ -64,6 +64,15 @@ const EmblaCarousel = () => {
   const handleNext = () => {
     if (emblaApi) emblaApi.scrollNext();
   };
+
+  const handleStart = () => {
+    if (emblaApi) emblaApi.scrollTo(0);
+  };
+
+  useEffect(() => {
+    if (emblaApi && selectedIndex === 0) emblaApi.scrollTo(0);
+  }, [selectedIndex]);
+
   return (
     <>
       {options.length > 0 && (

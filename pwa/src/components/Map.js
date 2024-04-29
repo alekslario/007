@@ -1,11 +1,12 @@
 import mapboxgl from "mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
 import React, { useEffect, useRef, useState } from "react";
 import Slider from "./Slider";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Fly from "../svg/Fly";
 import styled from "@emotion/styled";
 import { ActionButton } from "./ActionButton";
 import { darkTheme, lightTheme } from "../global";
+import { selectSlide } from "../utils/store";
 import {
   IconLocationFilled,
   IconAdjustments,
@@ -51,6 +52,7 @@ export default function Map({
     state.location.current,
     state.preferences,
   ]);
+  const dispatch = useDispatch();
   const [currentLayers, setCurrentLayers] = useState("Mapbox Dark");
   const [currentTheme, setCurrentTheme] = useState("Mapbox Dark");
   const theme = preferences.theme.selected === "dark" ? darkTheme : lightTheme;
@@ -318,7 +320,12 @@ export default function Map({
 
   useEffect(() => {
     if (!loaded) return;
-    map.current.on("moveend", function () {
+    map.current.on("moveend", ({ originalEvent }) => {
+      if (!originalEvent) {
+        map.current.fire("flyend");
+      }
+    });
+    map.current.on("flyend", () => {
       setPlay(true);
       setBlocked(false);
     });
@@ -347,15 +354,7 @@ export default function Map({
   }, [loaded]);
 
   const goToStart = () => {
-    const { lon, lat } = current;
-    setPlay(false);
-    setBlocked(true);
-    map.current.flyTo({
-      center: [lon, lat],
-      zoom: 4,
-      duration: 4000, // Animate over 12 seconds
-      essential: true, // This animation is considered essential with
-    });
+    dispatch(selectSlide(0));
   };
 
   // reset animation on drag

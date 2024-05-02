@@ -318,6 +318,7 @@ export default function Map({
     getWeatherMaps();
   }, []);
 
+  // detecting flying events triggered by map.current.flyTo
   useEffect(() => {
     if (!loaded) return;
     map.current.on("moveend", ({ originalEvent }) => {
@@ -325,9 +326,20 @@ export default function Map({
         map.current.fire("flyend");
       }
     });
+
+    map.current.on("movestart", ({ originalEvent }) => {
+      if (!originalEvent) {
+        map.current.fire("flystart");
+      }
+    });
     map.current.on("flyend", () => {
       setPlay(true);
       setBlocked(false);
+    });
+
+    map.current.on("flystart", () => {
+      setPlay(false);
+      setBlocked(true);
     });
   }, [loaded]);
 

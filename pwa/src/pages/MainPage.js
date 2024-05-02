@@ -47,7 +47,12 @@ const MainPage = () => {
         <PageWrapper style={{ padding: "0px" }} theme={theme}>
           {!lat && <LoadingScreen />}
           {lat && lon && (
-            <Map lat={lat || 0} lon={lon || 0} setShowInput={setShowInput} />
+            <Map
+              lat={lat || 0}
+              lon={lon || 0}
+              setShowInput={setShowInput}
+              selectedIndex={selectedIndex}
+            />
           )}
           <MainInfo />
           <MuiChart />

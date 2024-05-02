@@ -2,7 +2,6 @@ import mapboxgl from "mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
 import React, { useEffect, useRef, useState } from "react";
 import Slider from "./Slider";
 import { useSelector, useDispatch } from "react-redux";
-import Fly from "../svg/Fly";
 import styled from "@emotion/styled";
 import { ActionButton } from "./ActionButton";
 import { darkTheme, lightTheme } from "../global";
@@ -14,15 +13,7 @@ import {
 } from "@tabler/icons-react";
 import { useHistory } from "react-router-dom";
 import ColorLegend from "./ColorLegend";
-import BottomDrawer from "./BottomDrawer";
 import { MapBoxAttribution } from "./MapBoxAttribution";
-const layers = [
-  "precipitation_new",
-  "clouds_new",
-  "pressure_new",
-  "wind_new",
-  "temp_new",
-];
 
 const MapWrapper = styled.div`
   position: relative;
@@ -47,6 +38,7 @@ export default function Map({
   zoom = 0,
   setShowInput = () => {},
   setLoadingScreen = () => {},
+  selectedIndex,
 }) {
   const [current, preferences] = useSelector((state) => [
     state.location.current,
@@ -57,7 +49,6 @@ export default function Map({
   const [currentTheme, setCurrentTheme] = useState("Mapbox Dark");
   const theme = preferences.theme.selected === "dark" ? darkTheme : lightTheme;
   const history = useHistory();
-  const [selectedLayer, setSelectedLayer] = useState(0);
   const [maps, setMaps] = useState([]);
 
   const [play, setPlay] = useState(false);
@@ -67,13 +58,7 @@ export default function Map({
     reverse: false,
     cycles: 0,
   });
-  const [source, addSource] = useState({
-    clouds_new: 0,
-    precipitation_new: 0,
-    pressure_new: 0,
-    wind_new: 0,
-    temp_new: 0,
-  });
+
   const [loaded, setLoaded] = useState(false);
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -181,15 +166,12 @@ export default function Map({
 
   useEffect(() => {
     if (currentTheme !== currentLayers) {
+      //reload mapbox layers on theme change
       setPointer();
       setOverlay();
       setCurrentLayers(currentTheme);
     }
   }, [currentTheme, currentLayers]);
-
-  useEffect(() => {
-    if (!loaded || !lightTheme) return;
-  }, [lightTheme]);
 
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
@@ -208,6 +190,7 @@ export default function Map({
     setOverlay();
   }, [loaded, maps.length]);
 
+  //animate overlays
   useEffect(() => {
     if (!loaded || maps.length === 0 || !play) return;
     let handle = null;
@@ -322,6 +305,7 @@ export default function Map({
   useEffect(() => {
     if (!loaded) return;
     map.current.on("moveend", ({ originalEvent }) => {
+      //detect if the event was triggered by the user
       if (!originalEvent) {
         map.current.fire("flyend");
       }
@@ -343,8 +327,7 @@ export default function Map({
     });
   }, [loaded]);
 
-  // flying to new location on swipe or loading of the map
-  useEffect(() => {
+  const flyTo = (lat, lon, loaded) => {
     if (!loaded) return;
     setPlay(false);
     setBlocked(true);
@@ -357,6 +340,10 @@ export default function Map({
       essential: true, // This animation is considered essential with
       //respect to prefers-reduced-motion
     });
+  };
+  // flying to new location on swipe or loading of the map
+  useEffect(() => {
+    flyTo(lat, lon, loaded);
   }, [loaded, lat, lon]);
 
   // set pointer on the map
@@ -366,7 +353,11 @@ export default function Map({
   }, [loaded]);
 
   const goToStart = () => {
-    dispatch(selectSlide(0));
+    if (selectedIndex === 0) {
+      flyTo(lat, lon, loaded);
+    } else {
+      dispatch(selectSlide(0));
+    }
   };
 
   // reset animation on drag

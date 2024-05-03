@@ -346,6 +346,17 @@ export default function Map({
     flyTo(lat, lon, loaded);
   }, [loaded, lat, lon]);
 
+  //enable play button early if the fly animation takes too long
+  // it's hack. in case the flyend event is not triggered (happens occasionally, the cause is unknown)
+  useEffect(() => {
+    if (blocked) return;
+    const handle = setTimeout(() => {
+      setBlocked(false);
+    }, 10000);
+
+    return () => clearTimeout(handle);
+  }, [blocked]);
+
   // set pointer on the map
   useEffect(() => {
     if (!loaded) return;

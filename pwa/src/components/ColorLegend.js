@@ -19,6 +19,23 @@ const colors = {
   60: "#ffeb0aff",
 };
 
+const ActionIconCustom = styled(ActionIcon)`
+  margin: 2px;
+  margin-top: -3px;
+  padding: 2px;
+  &:active {
+    background-color: ${({ theme }) => theme.card};
+  }
+  &:disabled {
+    background-color: ${({ theme }) => theme.card};
+    border: initial;
+  }
+  &:hover {
+    background-color: ${({ theme }) => theme.card};
+    opacity: 0.8;
+  }
+`;
+
 const ColorMeterWrapper = styled.div`
   border-radius: 15px;
   border: 1px transparent solid;
@@ -126,12 +143,8 @@ export const ColorLegend = () => {
           <ColorMeter />
           <ColorLegendText theme={theme} />
         </Row>
-        <ActionIcon
-          style={{
-            margin: "2px",
-            marginTop: "-3px",
-            padding: "2px",
-          }}
+        <ActionIconCustom
+          theme={theme}
           onClick={() => {
             setShow((prev) => !prev);
           }}
@@ -141,7 +154,7 @@ export const ColorLegend = () => {
           ) : (
             <IconCaretRight fill={theme.active} stroke={theme.active} />
           )}
-        </ActionIcon>
+        </ActionIconCustom>
       </Col>
     </ColorLegendWrapper>
   );

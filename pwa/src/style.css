@@ -66,45 +66,6 @@ body {
 
 } */
 
-.tint0 {
-  background: linear-gradient(360deg, #dfdfdfff 0%, #9bea8fff 100%);
-}
-.tint1 {
-  background: linear-gradient(360deg, #9bea8fff 0%, #58ff42ff 100%);
-}
-.tint2 {
-  background: linear-gradient(360deg, #58ff42ff 0%, #47c278ff 100%);
-}
-
-.tint3 {
-  background: linear-gradient(360deg, #47c278ff 0%, #4793f9ff 100%);
-}
-.tint4 {
-  background: linear-gradient(360deg, #4793f9ff 0%, #0c59ffff 100%);
-}
-
-.tint5 {
-  background: linear-gradient(360deg, #0c59ffff 0%, #6153c1ff 100%);
-}
-
-.tint6 {
-  background: linear-gradient(360deg, #6153c1ff 0%, #ff93a3ff 100%);
-}
-
-.tint7 {
-  background: linear-gradient(360deg, #ff93a3ff 0%, #ff3f35ff 100%);
-}
-
-.tint8 {
-  background: linear-gradient(360deg, #ff3f35ff 0%, #c20511ff 100%);
-}
-
-.tint9 {
-  background: linear-gradient(360deg, #c20511ff 0%, #ffeb0aff 100%);
-}
-.tint {
-  margin-bottom: -1px;
-}
 .mantine-UnstyledButton-root:active {
   background-color: initial;
 }
@@ -125,6 +86,7 @@ ion-modal ion-backdrop {
   min-width: 0;
   font-size: 24px;
 }
+
 .embla {
   max-width: 18rem;
   margin: auto;

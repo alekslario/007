@@ -6,12 +6,12 @@ import { darkTheme, lightTheme } from "../global";
 import { Row, Col } from "./Flex";
 import { useSelector } from "react-redux";
 const colors = [
-  "#47c278ff",
-  "#6ACEE6",
-  "#0076A9",
-  "#105E7F",
-  "#ffeb0aff",
   "#ff1d02",
+  "#ffeb0aff",
+  "#105E7F",
+  "#0076A9",
+  "#6ACEE6",
+  "#47c278ff",
 ];
 //f
 const ActionIconCustom = styled(ActionIcon)`
@@ -34,9 +34,11 @@ const ColorMeterWrapper = styled.div`
   border-radius: 15px;
   border: 1px transparent solid;
   overflow: hidden;
-  width: 5px;
+  width: 10px;
   border-radius: 15px;
-  margin: 10px;
+  margin: 5px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
 `;
 
 const ColorLegendWrapper = styled.div`
@@ -52,6 +54,19 @@ const ColorLegendWrapper = styled.div`
   overflow: hidden;
   height: fit-content;
   padding-top: 4px;
+  width: 20px;
+  &:focus-within {
+    width: 200px;
+  }
+`;
+
+const Bb = styled.b`
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  bottom: 100px;
+  left: 15px;
+  background: red;
 `;
 
 const linearGradient = (index) => {
@@ -67,10 +82,8 @@ const ColorMeter = () => {
           key={i}
           style={{
             background: linearGradient(i),
-            // width: "10px",
-            // height: "20px",
-            width: "30px",
-            height: "50px",
+
+            width: "10px",
           }}
         ></div>
       ))}
@@ -87,12 +100,12 @@ const SubText = styled.div`
 `;
 
 const texts = [
-  ["Drizzle", "0.1 mm/h"],
-  ["Light rain", "2.5 mm/h"],
-  ["Moderate rain", "7.6 mm/h"],
-  ["Heavy rain", "15.0 mm/h"],
-  ["Intense rain", "30.0 mm/h"],
   ["Extreme rain", ">30.0 mm/h"],
+  ["Intense rain", "30.0 mm/h"],
+  ["Heavy rain", "15.0 mm/h"],
+  ["Moderate rain", "7.6 mm/h"],
+  ["Light rain", "2.5 mm/h"],
+  ["Drizzle", "0.1 mm/h"],
 ];
 
 const ColorLegendText = ({ theme }) => {
@@ -135,20 +148,18 @@ export const ColorLegend = () => {
   const [show, setShow] = useState(false);
   return (
     <ColorLegendWrapper
-      style={{ width: show ? "200px" : "20px" }}
+      // style={{ width: show ? "200px" : "20px" }}
       theme={theme}
+      onClick={() => {
+        setShow((prev) => !prev);
+      }}
     >
       <Col>
         <Row>
           <ColorMeter />
           <ColorLegendText theme={theme} />
         </Row>
-        <ActionIconCustom
-          theme={theme}
-          onClick={() => {
-            setShow((prev) => !prev);
-          }}
-        >
+        <ActionIconCustom theme={theme}>
           {show ? (
             <IconCaretLeft fill={theme.active} stroke={theme.active} />
           ) : (

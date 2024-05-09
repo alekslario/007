@@ -6,12 +6,14 @@ import useEmblaCarousel from "embla-carousel-react";
 import { selectSlide } from "../utils/store";
 import { darkTheme, lightTheme } from "../global";
 import styled from "@emotion/styled";
+import { hexToRgb } from "../utils/utils";
 
 const Icon = styled(ActionButton)`
   position: static;
   /* width: 30px;
   height: 30px; */
   box-shadow: none;
+  background-color: ${({ theme }) => hexToRgb(theme.card, 0.5)};
 `;
 
 const EmblaCarousel = () => {

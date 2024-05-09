@@ -72,3 +72,15 @@ export const firstLetterUppercase = (string) => {
 export const dbzToRain = (dbz) => {
   return 0.036 * 10 ** (0.0625 * dBZ);
 };
+
+export const hexToRgb = (hex, opacity = 1) => {
+  // Remove the '#' if it's included
+  hex = hex.replace(/^#/, "");
+
+  // Convert hex to decimal
+  var r = parseInt(hex.substring(0, 2), 16);
+  var g = parseInt(hex.substring(2, 4), 16);
+  var b = parseInt(hex.substring(4, 6), 16);
+
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+};

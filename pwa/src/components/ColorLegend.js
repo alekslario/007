@@ -55,9 +55,6 @@ const ColorLegendWrapper = styled.div`
   height: fit-content;
   padding-top: 4px;
   width: 20px;
-  &:focus-within {
-    width: 200px;
-  }
 `;
 
 const Bb = styled.b`
@@ -152,6 +149,9 @@ export const ColorLegend = () => {
       theme={theme}
       onClick={() => {
         setShow((prev) => !prev);
+      }}
+      style={{
+        ...(show ? { width: "200px" } : { width: "20px" }),
       }}
     >
       <Col>
